@@ -1,0 +1,79 @@
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Moedix.MainPage"
+             BackgroundColor="#121212"
+             NavigationPage.HasNavigationBar="False"
+             Shell.NavBarIsVisible="False">
+
+    <Grid VerticalOptions="Center" HorizontalOptions="Center">
+        <VerticalStackLayout Padding="30" Spacing="40" HorizontalOptions="Center" VerticalOptions="Center">
+
+            <Frame BackgroundColor="#1E1E1E"
+                   CornerRadius="30"
+                   HasShadow="True"
+                   Padding="20"
+                   HorizontalOptions="Center">
+                <Image Source="logo.png"
+                       HeightRequest="140"
+                       WidthRequest="140"
+                       Aspect="AspectFit"/>
+            </Frame>
+
+            <Label Text="Moedix"
+                   FontSize="42"
+                   FontAttributes="Bold"
+                   TextColor="#FFD700"
+                   HorizontalOptions="Center"
+                   FontFamily="Poppins-SemiBold"/>
+
+            <Label Text="Educação Financeira Infantil"
+                   FontSize="18"
+                   TextColor="White"
+                   HorizontalOptions="Center"
+                   FontFamily="Poppins-Light"/>
+
+            <VerticalStackLayout Spacing="20" WidthRequest="250">
+
+                <Frame CornerRadius="20" HasShadow="True" Padding="0" BackgroundColor="#FFD700">
+                    <Button Text="MiniGame"
+                            BackgroundColor="Transparent"
+                            TextColor="#000"
+                            FontAttributes="Bold"
+                            FontSize="20"
+                            HeightRequest="60"/>
+                </Frame>
+
+                <Frame CornerRadius="20" HasShadow="True" Padding="0" BackgroundColor="#6A5ACD">
+                    <Button Text="Conteúdos"
+                            BackgroundColor="Transparent"
+                            TextColor="White"
+                            FontAttributes="Bold"
+                            FontSize="20"
+                            HeightRequest="60"/>
+                </Frame>
+
+                <Frame CornerRadius="20" HasShadow="True" Padding="0" BackgroundColor="#32CD32">
+                    <Button Text="Créditos"
+                            BackgroundColor="Transparent"
+                            TextColor="White"
+                            FontAttributes="Bold"
+                            FontSize="20"
+                            HeightRequest="60"
+                            Clicked="OnCreditsClicked"
+                            />
+                </Frame>
+
+                <Frame CornerRadius="20" HasShadow="True" Padding="0" BackgroundColor="#FF4500">
+                    <Button Text="Sair"
+                            BackgroundColor="Transparent"
+                            TextColor="White"
+                            FontAttributes="Bold"
+                            FontSize="20"
+                            HeightRequest="60"
+                            Clicked="OnExitClicked"/>
+                </Frame>
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

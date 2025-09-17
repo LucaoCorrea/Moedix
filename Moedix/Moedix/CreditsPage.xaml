@@ -1,0 +1,41 @@
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Moedix.CreditsPage"
+             BackgroundColor="#121212"
+             NavigationPage.HasNavigationBar="False">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="30" Spacing="20" HorizontalOptions="Center">
+
+            <Label Text="Créditos"
+                   FontSize="36"
+                   FontAttributes="Bold"
+                   TextColor="#FFD700"
+                   HorizontalOptions="Center"
+                   FontFamily="Poppins-SemiBold"/>
+
+            <Label Text="Desenvolvido por: "
+                   FontSize="20"
+                   TextColor="White"
+                   HorizontalOptions="Center"/>
+
+            <Label Text="Design: ..."
+                   FontSize="20"
+                   TextColor="White"
+                   HorizontalOptions="Center"/>
+
+            <Label Text="Conteúdo Educacional: ..."
+                   FontSize="20"
+                   TextColor="White"
+                   HorizontalOptions="Center"/>
+
+            <Button Text="⬅ Voltar"
+                    BackgroundColor="#FFD700"
+                    TextColor="Black"
+                    FontAttributes="Bold"
+                    CornerRadius="15"
+                    HeightRequest="50"
+                    Clicked="OnBackClicked"/>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
