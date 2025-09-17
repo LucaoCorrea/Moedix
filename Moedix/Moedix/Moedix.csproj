@@ -28,12 +28,18 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="ContentPageView.xaml.cs">
+	    <DependentUpon>ContentPageView.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="CreditsPage.xaml.cs">
 	    <DependentUpon>CreditsPage.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="ContentPageView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="CreditsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

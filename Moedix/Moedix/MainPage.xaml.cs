@@ -10,15 +10,22 @@
         private void OnExitClicked(object sender, EventArgs e)
         {
 #if ANDROID
-            Platform.CurrentActivity.FinishAffinity(); // erro ao clicar em sair
+Android.OS.Process.KillProcess(Android.OS.Process.MyPid());
 #elif WINDOWS
-            Application.Current.Quit();
+Application.Current.Quit();
 #endif
         }
 
         private async void OnCreditsClicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new CreditsPage());
+            await Shell.Current.GoToAsync(nameof(CreditsPage));
         }
+
+        private async void OnContentClicked(object sender, EventArgs e)
+        {
+            await Shell.Current.GoToAsync(nameof(ContentPageView));
+        }
+
+
     }
 }

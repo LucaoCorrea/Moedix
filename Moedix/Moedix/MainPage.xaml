@@ -49,7 +49,8 @@
                             TextColor="White"
                             FontAttributes="Bold"
                             FontSize="20"
-                            HeightRequest="60"/>
+                            HeightRequest="60"
+                            Clicked="OnContentClicked"/>
                 </Frame>
 
                 <Frame CornerRadius="20" HasShadow="True" Padding="0" BackgroundColor="#32CD32">

@@ -5,6 +5,10 @@
         public AppShell()
         {
             InitializeComponent();
+
+            Routing.RegisterRoute(nameof(CreditsPage), typeof(CreditsPage));
+            Routing.RegisterRoute(nameof(ContentPageView), typeof(ContentPageView));
         }
     }
+
 }

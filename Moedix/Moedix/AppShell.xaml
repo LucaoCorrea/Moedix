@@ -5,11 +5,20 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:Moedix"
     Shell.FlyoutBehavior="Disabled"
-    Title="Moedix">
+    Shell.NavBarIsVisible="False"   
+    Title="Moedix"
+    >
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <ShellContent Title="Home"
+                  ContentTemplate="{DataTemplate local:MainPage}"
+                  Route="MainPage" />
+
+    <ShellContent Title="Créditos"
+                  ContentTemplate="{DataTemplate local:CreditsPage}"
+                  Route="CreditsPage" />
+
+    <ShellContent Title="Conteúdos"
+                  ContentTemplate="{DataTemplate local:ContentPageView}"
+                  Route="ContentPageView" />
 
 </Shell>

@@ -1,0 +1,105 @@
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Moedix.ContentPageView"
+             BackgroundColor="#121212"
+             Shell.NavBarIsVisible="False"
+             NavigationPage.HasNavigationBar="False"
+             >
+
+    <Grid Padding="20" RowDefinitions="Auto,*">
+
+        <Button Text="←"
+                FontSize="26"
+                TextColor="#FFD700"
+                FontFamily="Poppins-SemiBold"
+                BackgroundColor="Transparent"
+                HorizontalOptions="Start"
+                VerticalOptions="Start"
+                Clicked="OnBackClicked"/>
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Spacing="20" Padding="10">
+
+                <Frame CornerRadius="25" HasShadow="True" BackgroundColor="#1E1E1E" Padding="15">
+                    <HorizontalStackLayout>
+                        <Label Text="Conteúdo 1"
+                               TextColor="#FFD700"
+                               FontSize="20"
+                               FontFamily="Poppins-SemiBold"
+                               VerticalOptions="Center"
+                               HorizontalOptions="StartAndExpand"/>
+                        <Label Text="▼"
+                               TextColor="White"
+                               FontSize="22"
+                               VerticalOptions="Center"
+                               HorizontalOptions="End"/>
+                    </HorizontalStackLayout>
+                </Frame>
+
+                <Frame CornerRadius="25" HasShadow="True" BackgroundColor="#1E1E1E" Padding="15">
+                    <HorizontalStackLayout>
+                        <Label Text="Conteúdo 2"
+                               TextColor="#FFD700"
+                               FontSize="20"
+                               FontFamily="Poppins-SemiBold"
+                               VerticalOptions="Center"
+                               HorizontalOptions="StartAndExpand"/>
+                        <Label Text="▼"
+                               TextColor="White"
+                               FontSize="22"
+                               VerticalOptions="Center"
+                               HorizontalOptions="End"/>
+                    </HorizontalStackLayout>
+                </Frame>
+
+                <Frame CornerRadius="25" HasShadow="True" BackgroundColor="#1E1E1E" Padding="15">
+                    <HorizontalStackLayout>
+                        <Label Text="Conteúdo 3"
+                               TextColor="#FFD700"
+                               FontSize="20"
+                               FontFamily="Poppins-SemiBold"
+                               VerticalOptions="Center"
+                               HorizontalOptions="StartAndExpand"/>
+                        <Label Text="▼"
+                               TextColor="White"
+                               FontSize="22"
+                               VerticalOptions="Center"
+                               HorizontalOptions="End"/>
+                    </HorizontalStackLayout>
+                </Frame>
+                
+                <Frame CornerRadius="25" HasShadow="True" BackgroundColor="#1E1E1E" Padding="15">
+                    <HorizontalStackLayout>
+                        <Label Text="Conteúdo 4"
+                               TextColor="#FFD700"
+                               FontSize="20"
+                               FontFamily="Poppins-SemiBold"
+                               VerticalOptions="Center"
+                               HorizontalOptions="StartAndExpand"/>
+                        <Label Text="▼"
+                               TextColor="White"
+                               FontSize="22"
+                               VerticalOptions="Center"
+                               HorizontalOptions="End"/>
+                    </HorizontalStackLayout>
+                </Frame>
+
+                <Frame CornerRadius="25" HasShadow="True" BackgroundColor="#1E1E1E" Padding="15">
+                    <HorizontalStackLayout>
+                        <Label Text="Conteúdo 5"
+                               TextColor="#FFD700"
+                               FontSize="20"
+                               FontFamily="Poppins-SemiBold"
+                               VerticalOptions="Center"
+                               HorizontalOptions="StartAndExpand"/>
+                        <Label Text="▼"
+                               TextColor="White"
+                               FontSize="22"
+                               VerticalOptions="Center"
+                               HorizontalOptions="End"/>
+                    </HorizontalStackLayout>
+                </Frame>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>
