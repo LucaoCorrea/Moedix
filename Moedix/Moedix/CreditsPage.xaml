@@ -3,39 +3,58 @@
              x:Class="Moedix.CreditsPage"
              BackgroundColor="#121212">
 
+    <ContentPage.Content>
+        <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-    <Button Text="←"
-         FontSize="35"
-         TextColor="#FFD700"
-         FontFamily="Poppins-SemiBold"
-         BackgroundColor="Transparent"
-         HorizontalOptions="Start"
-         VerticalOptions="Start"
-         Clicked="OnBackClicked"/>
-    
-    <ScrollView>
-        <VerticalStackLayout Padding="30" Spacing="20" HorizontalOptions="Center"
-            <Label Text="Créditos"
-                   FontSize="36"
-                   FontAttributes="Bold"
-                   TextColor="#FFD700"
-                   HorizontalOptions="Center"
-                   FontFamily="Poppins-SemiBold"/>
+            <Button Text="←"
+                    FontSize="35"
+                    TextColor="#FFD700"
+                    FontFamily="Poppins-SemiBold"
+                    BackgroundColor="Transparent"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Start"
+                    Clicked="OnBackClicked"
+                    Grid.Row="0"/>
 
-            <Label Text="Desenvolvido por: "
-                   FontSize="20"
-                   TextColor="White"
-                   HorizontalOptions="Center"/>
+            <ScrollView Grid.Row="1" VerticalOptions="Center" HorizontalOptions="Center">
+                <VerticalStackLayout Padding="30" Spacing="20" HorizontalOptions="Center" VerticalOptions="Center">
+                    <Label Text="Créditos"
+                       FontSize="36"
+                       FontAttributes="Bold"
+                       TextColor="#FFD700"
+                       HorizontalOptions="Center"
+                       FontFamily="Poppins-SemiBold"/>
 
-            <Label Text="Design: ..."
-                   FontSize="20"
-                   TextColor="White"
-                   HorizontalOptions="Center"/>
+                    <Label Text="Lucas Corrêa"
+                       FontSize="20"
+                       TextColor="White"
+                       HorizontalOptions="Center"/>
 
-            <Label Text="Conteúdo Educacional: ..."
-                   FontSize="20"
-                   TextColor="White"
-                   HorizontalOptions="Center"/>
-        </VerticalStackLayout>
-    </ScrollView>
+                    <Label Text="Miguel Bertoco"
+                       FontSize="20"
+                       TextColor="White"
+                       HorizontalOptions="Center"/>
+
+                    <Label Text="Vinicius Lara"
+                       FontSize="20"
+                       TextColor="White"
+                       HorizontalOptions="Center"/>
+
+                    <Label Text="Murilo Fernandes"
+                       FontSize="20"
+                       TextColor="White"
+                       HorizontalOptions="Center"/>
+
+                    <Label Text="Orientador: Elvio"
+                       FontSize="20"
+                       TextColor="White"
+                       HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </ScrollView>
+        </Grid>
+    </ContentPage.Content>
 </ContentPage>

@@ -1,4 +1,7 @@
-﻿namespace Moedix
+﻿using System.Diagnostics;
+using Microsoft.Maui.Controls;
+
+namespace Moedix
 {
     public partial class MainPage : ContentPage
     {
@@ -9,10 +12,14 @@
 
         private void OnExitClicked(object sender, EventArgs e)
         {
+            Debug.WriteLine("Exit button clicked");
+
 #if ANDROID
-Android.OS.Process.KillProcess(Android.OS.Process.MyPid());
+            var activity = Microsoft.Maui.ApplicationModel.Platform.CurrentActivity;
+            Debug.WriteLine(activity != null ? "Activity found" : "Activity not found");
+            activity?.FinishAffinity(); 
 #elif WINDOWS
-Application.Current.Quit();
+            Application.Current.Quit();
 #endif
         }
 
@@ -25,7 +32,5 @@ Application.Current.Quit();
         {
             await Shell.Current.GoToAsync(nameof(ContentPageView));
         }
-
-
     }
 }
