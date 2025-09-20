@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using Microsoft.Maui.Controls;
 
 namespace Moedix
 {
@@ -10,21 +9,19 @@ namespace Moedix
             InitializeComponent();
         }
 
-        private void OnExitClicked(object sender, EventArgs e)
+        private async void OnExitClicked(object sender, EventArgs e)
         {
-            Debug.WriteLine("Exit button clicked");
+            bool confirm = await DisplayAlert("Confirmação", "Deseja realmente sair do app?", "Não", "Sim");
+            if (!confirm) 
 
-#if ANDROID
-            var activity = Microsoft.Maui.ApplicationModel.Platform.CurrentActivity;
-            Debug.WriteLine(activity != null ? "Activity found" : "Activity not found");
-            activity?.FinishAffinity(); 
-#elif WINDOWS
-            Application.Current.Quit();
-#endif
+            System.Environment.Exit(0); 
         }
+
+
 
         private async void OnCreditsClicked(object sender, EventArgs e)
         {
+            Debug.WriteLine("Exit button clicked");
             await Shell.Current.GoToAsync(nameof(CreditsPage));
         }
 

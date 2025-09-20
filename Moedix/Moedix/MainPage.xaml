@@ -64,15 +64,15 @@
                             />
                 </Frame>
 
-                <Frame CornerRadius="20" HasShadow="True" Padding="0" BackgroundColor="#FF4500">
-                    <Button Text="Sair"
-                            BackgroundColor="Transparent"
-                            TextColor="White"
-                            FontAttributes="Bold"
-                            FontSize="20"
-                            HeightRequest="60"
-                            Clicked="OnExitClicked"/>
-                </Frame>
+                <Button Text="Sair"
+        BackgroundColor="#FF4500"
+        TextColor="White"
+        FontAttributes="Bold"
+        FontSize="20"
+        HeightRequest="60"
+        CornerRadius="20"
+        Clicked="OnExitClicked"/>
+
             </VerticalStackLayout>
 
         </VerticalStackLayout>

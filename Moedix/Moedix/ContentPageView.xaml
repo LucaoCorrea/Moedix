@@ -1,103 +1,80 @@
-﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Moedix.ContentPageView"
-             BackgroundColor="#121212"
-             Shell.NavBarIsVisible="False"
-             NavigationPage.HasNavigationBar="False"
-             >
+             BackgroundColor="#121212">
+
 
     <Grid Padding="20" RowDefinitions="Auto,*">
 
-        <Button Text="←"
-                FontSize="26"
-                TextColor="#FFD700"
-                FontFamily="Poppins-SemiBold"
-                BackgroundColor="Transparent"
-                HorizontalOptions="Start"
-                VerticalOptions="Start"
-                Clicked="OnBackClicked"/>
+        <Grid Grid.Row="0" ColumnDefinitions="Auto,*" VerticalOptions="Start">
+            <Button Text="←"
+                    FontSize="26"
+                    TextColor="#FFD700"
+                    BackgroundColor="Transparent"
+                    Clicked="OnBackClicked"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center" />
+        </Grid>
+
         <ScrollView Grid.Row="1">
-            <VerticalStackLayout Spacing="20" Padding="10">
+            <VerticalStackLayout x:Name="ContentList" Padding="0" Spacing="15">
 
-                <Frame CornerRadius="25" HasShadow="True" BackgroundColor="#1E1E1E" Padding="15">
-                    <HorizontalStackLayout>
-                        <Label Text="Conteúdo 1"
-                               TextColor="#FFD700"
-                               FontSize="20"
-                               FontFamily="Poppins-SemiBold"
-                               VerticalOptions="Center"
-                               HorizontalOptions="StartAndExpand"/>
-                        <Label Text="▼"
-                               TextColor="White"
-                               FontSize="22"
-                               VerticalOptions="Center"
-                               HorizontalOptions="End"/>
-                    </HorizontalStackLayout>
-                </Frame>
+                <Frame CornerRadius="20" BackgroundColor="#1E1E1E" Padding="15" HasShadow="True">
+                    <VerticalStackLayout>
+                        <Button Text="Conteúdo 1 ▼"
+                                BackgroundColor="Transparent"
+                                TextColor="#FFD700"
+                                FontAttributes="Bold"
+                                HorizontalOptions="FillAndExpand"
+                                Clicked="OnToggleClicked"
+                                CommandParameter="Conteudo1Body" />
 
-                <Frame CornerRadius="25" HasShadow="True" BackgroundColor="#1E1E1E" Padding="15">
-                    <HorizontalStackLayout>
-                        <Label Text="Conteúdo 2"
-                               TextColor="#FFD700"
-                               FontSize="20"
-                               FontFamily="Poppins-SemiBold"
-                               VerticalOptions="Center"
-                               HorizontalOptions="StartAndExpand"/>
-                        <Label Text="▼"
-                               TextColor="White"
-                               FontSize="22"
-                               VerticalOptions="Center"
-                               HorizontalOptions="End"/>
-                    </HorizontalStackLayout>
+                        <StackLayout x:Name="Conteudo1Body" IsVisible="False" Padding="10">
+                            <Label Text="📘 Lorem ipsum 1: explicação do conteúdo 1."
+                                   TextColor="White"
+                                   FontSize="16"/>
+                        </StackLayout>
+                    </VerticalStackLayout>
                 </Frame>
 
-                <Frame CornerRadius="25" HasShadow="True" BackgroundColor="#1E1E1E" Padding="15">
-                    <HorizontalStackLayout>
-                        <Label Text="Conteúdo 3"
-                               TextColor="#FFD700"
-                               FontSize="20"
-                               FontFamily="Poppins-SemiBold"
-                               VerticalOptions="Center"
-                               HorizontalOptions="StartAndExpand"/>
-                        <Label Text="▼"
-                               TextColor="White"
-                               FontSize="22"
-                               VerticalOptions="Center"
-                               HorizontalOptions="End"/>
-                    </HorizontalStackLayout>
-                </Frame>
-                
-                <Frame CornerRadius="25" HasShadow="True" BackgroundColor="#1E1E1E" Padding="15">
-                    <HorizontalStackLayout>
-                        <Label Text="Conteúdo 4"
-                               TextColor="#FFD700"
-                               FontSize="20"
-                               FontFamily="Poppins-SemiBold"
-                               VerticalOptions="Center"
-                               HorizontalOptions="StartAndExpand"/>
-                        <Label Text="▼"
-                               TextColor="White"
-                               FontSize="22"
-                               VerticalOptions="Center"
-                               HorizontalOptions="End"/>
-                    </HorizontalStackLayout>
+                <Frame CornerRadius="20" BackgroundColor="#1E1E1E" Padding="15" HasShadow="True">
+                    <VerticalStackLayout>
+                        <Button Text="Conteúdo 2 ▼"
+                                BackgroundColor="Transparent"
+                                TextColor="#FFD700"
+                                FontAttributes="Bold"
+                                HorizontalOptions="FillAndExpand"
+                                Clicked="OnToggleClicked"
+                                CommandParameter="Conteudo2Body" />
+
+                        <StackLayout x:Name="Conteudo2Body" IsVisible="False" Padding="10">
+                            <Label Text="📗 Lorem ipsum 2: explicação do conteúdo 2."
+                                   TextColor="White"
+                                   FontSize="16"/>
+                        </StackLayout>
+                    </VerticalStackLayout>
                 </Frame>
 
-                <Frame CornerRadius="25" HasShadow="True" BackgroundColor="#1E1E1E" Padding="15">
-                    <HorizontalStackLayout>
-                        <Label Text="Conteúdo 5"
-                               TextColor="#FFD700"
-                               FontSize="20"
-                               FontFamily="Poppins-SemiBold"
-                               VerticalOptions="Center"
-                               HorizontalOptions="StartAndExpand"/>
-                        <Label Text="▼"
-                               TextColor="White"
-                               FontSize="22"
-                               VerticalOptions="Center"
-                               HorizontalOptions="End"/>
-                    </HorizontalStackLayout>
+                <Frame CornerRadius="20" BackgroundColor="#1E1E1E" Padding="15" HasShadow="True">
+                    <VerticalStackLayout>
+                        <Button Text="Conteúdo 3 ▼"
+                                BackgroundColor="Transparent"
+                                TextColor="#FFD700"
+                                FontAttributes="Bold"
+                                HorizontalOptions="FillAndExpand"
+                                Clicked="OnToggleClicked"
+                                CommandParameter="Conteudo3Body" />
+
+                        <StackLayout x:Name="Conteudo3Body" IsVisible="False" Padding="10">
+                            <Label Text="📙 Lorem ipsum 3: explicação do conteúdo 3."
+                                   TextColor="White"
+                                   FontSize="16"/>
+                        </StackLayout>
+                    </VerticalStackLayout>
                 </Frame>
+
+                <!-- colocar mais conteudos - lembrar -->
 
             </VerticalStackLayout>
         </ScrollView>
