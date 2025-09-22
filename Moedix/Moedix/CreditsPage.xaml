@@ -29,7 +29,7 @@
                        HorizontalOptions="Center"
                        FontFamily="Poppins-SemiBold"/>
 
-                    <Label Text="Lucas Corrêa"
+                    <Label Text="Lucas Leonardi"
                        FontSize="20"
                        TextColor="White"
                        HorizontalOptions="Center"/>
@@ -49,7 +49,7 @@
                        TextColor="White"
                        HorizontalOptions="Center"/>
 
-                    <Label Text="Orientador: Elvio"
+                    <Label Text="Elvio Silva"
                        FontSize="20"
                        TextColor="White"
                        HorizontalOptions="Center"/>

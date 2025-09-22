@@ -74,6 +74,42 @@
                     </VerticalStackLayout>
                 </Frame>
 
+                <Frame CornerRadius="20" BackgroundColor="#1E1E1E" Padding="15" HasShadow="True">
+                    <VerticalStackLayout>
+                        <Button Text="Conteúdo 4 ▼"
+                                BackgroundColor="Transparent"
+                                TextColor="#FFD700"
+                                FontAttributes="Bold"
+                                HorizontalOptions="FillAndExpand"
+                                Clicked="OnToggleClicked"
+                                CommandParameter="Conteudo3Body" />
+
+                        <StackLayout x:Name="Conteudo4Body" IsVisible="False" Padding="10">
+                            <Label Text="📙 Lorem ipsum 4: explicação do conteúdo 4."
+                                   TextColor="White"
+                                   FontSize="16"/>
+                        </StackLayout>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <Frame CornerRadius="20" BackgroundColor="#1E1E1E" Padding="15" HasShadow="True">
+                    <VerticalStackLayout>
+                        <Button Text="Conteúdo 5 ▼"
+                                BackgroundColor="Transparent"
+                                TextColor="#FFD700"
+                                FontAttributes="Bold"
+                                HorizontalOptions="FillAndExpand"
+                                Clicked="OnToggleClicked"
+                                CommandParameter="Conteudo3Body" />
+
+                        <StackLayout x:Name="Conteudo5Body" IsVisible="False" Padding="10">
+                            <Label Text="📙 Lorem ipsum 5: explicação do conteúdo 5."
+                                   TextColor="White"
+                                   FontSize="16"/>
+                        </StackLayout>
+                    </VerticalStackLayout>
+                </Frame>
+
                 <!-- colocar mais conteudos - lembrar -->
 
             </VerticalStackLayout>
