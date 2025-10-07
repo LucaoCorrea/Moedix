@@ -1,0 +1,55 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Moedix.GamePage"
+             BackgroundColor="SkyBlue">
+
+    <AbsoluteLayout x:Name="GameLayout">
+
+        <BoxView Color="SkyBlue"
+                 AbsoluteLayout.LayoutBounds="0,0,1,1"
+                 AbsoluteLayout.LayoutFlags="All" />
+
+        <BoxView x:Name="Ground"
+                 Color="DarkGreen"
+                 HeightRequest="100"
+                 AbsoluteLayout.LayoutBounds="0,1,1,0"
+                 AbsoluteLayout.LayoutFlags="WidthProportional,YProportional" />
+
+        <Ellipse x:Name="Pig"
+                 WidthRequest="40"
+                 HeightRequest="40"
+                 Fill="Pink"
+                 AbsoluteLayout.LayoutBounds="0.2,0.5,40,40"
+                 AbsoluteLayout.LayoutFlags="PositionProportional" />
+
+        <Rectangle x:Name="TopColumn"
+                   Fill="Gray"
+                   WidthRequest="60"
+                   HeightRequest="200"
+                   AbsoluteLayout.LayoutBounds="1,0,60,200"
+                   AbsoluteLayout.LayoutFlags="PositionProportional" />
+
+        <Rectangle x:Name="BottomColumn"
+                   Fill="Gray"
+                   WidthRequest="60"
+                   HeightRequest="200"
+                   AbsoluteLayout.LayoutBounds="1,1,60,200"
+                   AbsoluteLayout.LayoutFlags="PositionProportional,YProportional" />
+
+        <Label x:Name="StartLabel"
+               Text="Toque para jogar"
+               FontSize="28"
+               TextColor="White"
+               HorizontalOptions="Center"
+               VerticalOptions="Center" />
+
+        <Label x:Name="GameOverLabel"
+               Text="Game Over!"
+               FontSize="32"
+               TextColor="Red"
+               IsVisible="False"
+               HorizontalOptions="Center"
+               VerticalOptions="Center" />
+
+    </AbsoluteLayout>
+</ContentPage>

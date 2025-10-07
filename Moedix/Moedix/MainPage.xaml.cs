@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using Moedix;
+using System.Diagnostics;
 
 namespace Moedix
 {
@@ -28,6 +29,11 @@ namespace Moedix
         private async void OnContentClicked(object sender, EventArgs e)
         {
             await Shell.Current.GoToAsync(nameof(ContentPageView));
+        }
+
+        private async void OnGameClicked(object sender, EventArgs e)
+        {
+            await Shell.Current.GoToAsync(nameof(GamePage));
         }
     }
 }

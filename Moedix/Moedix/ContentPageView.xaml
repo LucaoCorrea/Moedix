@@ -4,7 +4,6 @@
              x:Class="Moedix.ContentPageView"
              BackgroundColor="#121212">
 
-
     <Grid Padding="20" RowDefinitions="Auto,*">
 
         <Grid Grid.Row="0" ColumnDefinitions="Auto,*" VerticalOptions="Start">
@@ -22,7 +21,7 @@
 
                 <Frame CornerRadius="20" BackgroundColor="#1E1E1E" Padding="15" HasShadow="True">
                     <VerticalStackLayout>
-                        <Button Text="Conteúdo 1 ▼"
+                        <Button Text="🌟 1. Bem-vindo ao Mundo de Moedix ▼"
                                 BackgroundColor="Transparent"
                                 TextColor="#FFD700"
                                 FontAttributes="Bold"
@@ -31,86 +30,156 @@
                                 CommandParameter="Conteudo1Body" />
 
                         <StackLayout x:Name="Conteudo1Body" IsVisible="False" Padding="10">
-                            <Label Text="📘 Lorem ipsum 1: explicação do conteúdo 1."
-                                   TextColor="White"
-                                   FontSize="16"/>
+                            <Label TextColor="White" FontSize="16">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span TextColor="White" Text="🐷✨ No Moedix, você vai conhecer o Porquinho Alado!" />
+                                        <Span TextColor="White" Text="&#x0a;&#x0a;Ele vive em um lugar mágico cheio de colunas gregas e templos dourados. A Grécia representa sabedoria — e aqui, você vai aprender o poder do conhecimento sobre o dinheiro! 💰" />
+                                        <Span TextColor="White" Text="&#x0a;&#x0a;O mini game é como um voo: quanto melhor você aprender a cuidar das suas moedas, mais alto o porquinho voa! 🕊️" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
                         </StackLayout>
                     </VerticalStackLayout>
                 </Frame>
 
                 <Frame CornerRadius="20" BackgroundColor="#1E1E1E" Padding="15" HasShadow="True">
                     <VerticalStackLayout>
-                        <Button Text="Conteúdo 2 ▼"
+                        <Button Text="💰 2. Aprendendo o Valor do Dinheiro ▼"
                                 BackgroundColor="Transparent"
                                 TextColor="#FFD700"
                                 FontAttributes="Bold"
-                                HorizontalOptions="FillAndExpand"
                                 Clicked="OnToggleClicked"
                                 CommandParameter="Conteudo2Body" />
 
                         <StackLayout x:Name="Conteudo2Body" IsVisible="False" Padding="10">
-                            <Label Text="📗 Lorem ipsum 2: explicação do conteúdo 2."
-                                   TextColor="White"
-                                   FontSize="16"/>
+                            <Label TextColor="White" FontSize="16">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span TextColor="White" Text="Dinheiro é o que usamos para comprar brinquedos, roupas e até sorvete 🍦." />
+                                        <Span TextColor="White" Text="&#x0a;&#x0a;Mas ele não aparece do nada! 💪 Ele vem do trabalho e do esforço das pessoas." />
+                                        <Span TextColor="White" Text="&#x0a;&#x0a;Aprender sobre dinheiro é entender que cada moedinha tem uma história e um valor especial! ✨" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
                         </StackLayout>
                     </VerticalStackLayout>
                 </Frame>
 
                 <Frame CornerRadius="20" BackgroundColor="#1E1E1E" Padding="15" HasShadow="True">
                     <VerticalStackLayout>
-                        <Button Text="Conteúdo 3 ▼"
+                        <Button Text="🐷 3. Guardar e Planejar ▼"
                                 BackgroundColor="Transparent"
                                 TextColor="#FFD700"
                                 FontAttributes="Bold"
-                                HorizontalOptions="FillAndExpand"
                                 Clicked="OnToggleClicked"
                                 CommandParameter="Conteudo3Body" />
 
                         <StackLayout x:Name="Conteudo3Body" IsVisible="False" Padding="10">
-                            <Label Text="📙 Lorem ipsum 3: explicação do conteúdo 3."
-                                   TextColor="White"
-                                   FontSize="16"/>
+                            <Label TextColor="White" FontSize="16">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span TextColor="White" Text="Quando guardamos um pouquinho, o dinheiro pode crescer! 📈" />
+                                        <Span TextColor="White" Text="&#x0a;&#x0a;O cofrinho é um amigo que ajuda a economizar para algo especial — como um brinquedo novo ou um passeio divertido! 🎁" />
+                                        <Span TextColor="White" Text="&#x0a;&#x0a;Planejar ensina que esperar também faz parte da aventura! 🕰️" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
                         </StackLayout>
                     </VerticalStackLayout>
                 </Frame>
 
                 <Frame CornerRadius="20" BackgroundColor="#1E1E1E" Padding="15" HasShadow="True">
                     <VerticalStackLayout>
-                        <Button Text="Conteúdo 4 ▼"
+                        <Button Text="🧩 4. Fazendo Boas Escolhas ▼"
                                 BackgroundColor="Transparent"
                                 TextColor="#FFD700"
                                 FontAttributes="Bold"
-                                HorizontalOptions="FillAndExpand"
                                 Clicked="OnToggleClicked"
-                                CommandParameter="Conteudo3Body" />
+                                CommandParameter="Conteudo4Body" />
 
                         <StackLayout x:Name="Conteudo4Body" IsVisible="False" Padding="10">
-                            <Label Text="📙 Lorem ipsum 4: explicação do conteúdo 4."
-                                   TextColor="White"
-                                   FontSize="16"/>
+                            <Label TextColor="White" FontSize="16">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span TextColor="White" Text="Nem tudo o que brilha precisa ser comprado! ✨" />
+                                        <Span TextColor="White" Text="&#x0a;&#x0a;Às vezes, é melhor esperar e pensar: será que eu preciso disso agora? 🤔" />
+                                        <Span TextColor="White" Text="&#x0a;&#x0a;Fazer boas escolhas é como montar um quebra-cabeça — cada peça tem o seu momento certo! 🧠" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
                         </StackLayout>
                     </VerticalStackLayout>
                 </Frame>
 
                 <Frame CornerRadius="20" BackgroundColor="#1E1E1E" Padding="15" HasShadow="True">
                     <VerticalStackLayout>
-                        <Button Text="Conteúdo 5 ▼"
+                        <Button Text="💎 5. Criptomoedas: o Dinheiro da Internet ▼"
                                 BackgroundColor="Transparent"
                                 TextColor="#FFD700"
                                 FontAttributes="Bold"
-                                HorizontalOptions="FillAndExpand"
                                 Clicked="OnToggleClicked"
-                                CommandParameter="Conteudo3Body" />
+                                CommandParameter="Conteudo5Body" />
 
                         <StackLayout x:Name="Conteudo5Body" IsVisible="False" Padding="10">
-                            <Label Text="📙 Lorem ipsum 5: explicação do conteúdo 5."
-                                   TextColor="White"
-                                   FontSize="16"/>
+                            <Label TextColor="White" FontSize="16">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span TextColor="White" Text="As criptomoedas são como moedinhas digitais! 💻✨" />
+                                        <Span TextColor="White" Text="&#x0a;&#x0a;Elas moram dentro do computador e usam códigos secretos para ninguém roubar." />
+                                        <Span TextColor="White" Text="&#x0a;&#x0a;É como um cofrinho mágico protegido por senhas superfortes! 🔐" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
                         </StackLayout>
                     </VerticalStackLayout>
                 </Frame>
 
-                <!-- colocar mais conteudos - lembrar -->
+                <Frame CornerRadius="20" BackgroundColor="#1E1E1E" Padding="15" HasShadow="True">
+                    <VerticalStackLayout>
+                        <Button Text="🔐 6. Criptografia: Protegendo Segredos ▼"
+                                BackgroundColor="Transparent"
+                                TextColor="#FFD700"
+                                FontAttributes="Bold"
+                                Clicked="OnToggleClicked"
+                                CommandParameter="Conteudo6Body" />
+
+                        <StackLayout x:Name="Conteudo6Body" IsVisible="False" Padding="10">
+                            <Label TextColor="White" FontSize="16">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span TextColor="White" Text="Criptografia é uma forma de esconder mensagens e proteger informações. 🔏" />
+                                        <Span TextColor="White" Text="&#x0a;&#x0a;É como uma linguagem secreta que só quem tem a chave certa entende! 🔑" />
+                                        <Span TextColor="White" Text="&#x0a;&#x0a;Ela protege nossas fotos, conversas e até o dinheiro digital. 💬💰" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </StackLayout>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <Frame CornerRadius="20" BackgroundColor="#1E1E1E" Padding="15" HasShadow="True">
+                    <VerticalStackLayout>
+                        <Button Text="🏛️ 7. Sabedoria Grega: é Ouro ▼"
+                                BackgroundColor="Transparent"
+                                TextColor="#FFD700"
+                                FontAttributes="Bold"
+                                Clicked="OnToggleClicked"
+                                CommandParameter="Conteudo7Body" />
+
+                        <StackLayout x:Name="Conteudo7Body" IsVisible="False" Padding="10">
+                            <Label TextColor="White" FontSize="16">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span TextColor="White" Text="Na Grécia antiga, as pessoas valorizavam o saber e o equilíbrio. ⚖️" />
+                                        <Span TextColor="White" Text="&#x0a;&#x0a;No Moedix, aprendemos que o verdadeiro tesouro não são só as moedas, mas o que aprendemos com elas. 💎" />
+                                        <Span TextColor="White" Text="&#x0a;&#x0a;Saber usar o dinheiro com sabedoria é o que faz um verdadeiro herói financeiro! 🦸‍♂️" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </StackLayout>
+                    </VerticalStackLayout>
+                </Frame>
 
             </VerticalStackLayout>
         </ScrollView>
