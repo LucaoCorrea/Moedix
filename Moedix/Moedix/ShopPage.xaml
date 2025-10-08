@@ -1,0 +1,25 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Moedix.ShopPage"
+             Title="Loja"
+             BackgroundColor="#F0E68C">
+
+    <VerticalStackLayout Padding="20" Spacing="15">
+        <Label Text="Loja Moedix"
+               FontSize="32"
+               FontAttributes="Bold"
+               TextColor="Brown"
+               HorizontalOptions="Center" />
+
+        <Label x:Name="CoinsLabel"
+               FontSize="20"
+               TextColor="Black"
+               Text="Moedas: 0"
+               HorizontalOptions="Center" />
+
+        <Button Text="Skin Dourada (50 moedas)"
+                Clicked="BuyGoldenSkin" />
+        <Button Text="Poder de voo extra (100 moedas)"
+                Clicked="BuyExtraPower" />
+    </VerticalStackLayout>
+</ContentPage>

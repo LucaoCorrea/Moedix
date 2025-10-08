@@ -1,47 +1,67 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Moedix.GamePage"
-             BackgroundColor="SkyBlue">
+             BackgroundColor="#8ED6FF"
+             Title="Moedix - Flappy Pig">
 
     <AbsoluteLayout x:Name="GameLayout">
-        <BoxView Color="SkyBlue"
-                 AbsoluteLayout.LayoutBounds="0,0,1000,1000" />
+
+        <BoxView Color="#8ED6FF"
+                 AbsoluteLayout.LayoutBounds="0,0,1,1"
+                 AbsoluteLayout.LayoutFlags="All" />
 
         <BoxView x:Name="Ground"
-                 Color="DarkGreen"
+                 Color="#006400"
                  HeightRequest="100"
-                 AbsoluteLayout.LayoutBounds="0,700,1000,100" />
+                 AbsoluteLayout.LayoutBounds="0,1,1,100"
+                 AbsoluteLayout.LayoutFlags="WidthProportional, YProportional" />
 
         <Ellipse x:Name="Pig"
-                 WidthRequest="40"
-                 HeightRequest="40"
+                 WidthRequest="50"
+                 HeightRequest="50"
                  Fill="Pink"
-                 AbsoluteLayout.LayoutBounds="100,300,40,40" />
+                 AbsoluteLayout.LayoutBounds="100,300,50,50" />
 
-        <Rectangle x:Name="TopColumn"
-                   Fill="Gray"
-                   WidthRequest="60"
-                   HeightRequest="200"
-                   AbsoluteLayout.LayoutBounds="500,0,60,200" />
-
-        <Rectangle x:Name="BottomColumn"
-                   Fill="Gray"
-                   WidthRequest="60"
-                   HeightRequest="200"
-                   AbsoluteLayout.LayoutBounds="500,500,60,200" />
-
-        <Label x:Name="StartLabel"
-               Text="Toque para jogar"
+        <Label x:Name="ScoreLabel"
+               Text="Pontos: 0"
                FontSize="28"
+               FontAttributes="Bold"
                TextColor="White"
-               AbsoluteLayout.LayoutBounds="200,300,200,60" />
+               AbsoluteLayout.LayoutBounds="20,20,200,40" />
 
         <Label x:Name="GameOverLabel"
                Text="Game Over!"
-               FontSize="32"
+               FontSize="36"
+               FontAttributes="Bold"
                TextColor="Red"
                IsVisible="False"
-               AbsoluteLayout.LayoutBounds="200,200,200,60" />
+               HorizontalTextAlignment="Center"
+               AbsoluteLayout.LayoutBounds="0.5,0.4,0.6,80"
+               AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional" />
+
+        <Button x:Name="RestartButton"
+                Text="Jogar novamente"
+                BackgroundColor="#FFD700"
+                TextColor="Black"
+                FontAttributes="Bold"
+                CornerRadius="15"
+                IsVisible="False"
+                Clicked="RestartGame"
+                AbsoluteLayout.LayoutBounds="0.5,0.55,200,60"
+                AbsoluteLayout.LayoutFlags="PositionProportional" />
+
+        <VerticalStackLayout x:Name="DifficultyMenu"
+                             HorizontalOptions="Center"
+                             VerticalOptions="Center"
+                             Spacing="15">
+            <Label Text="Selecione a dificuldade"
+                   FontSize="24"
+                   TextColor="Black"
+                   HorizontalOptions="Center"/>
+            <Button Text="Facil" Clicked="StartEasy"/>
+            <Button Text="Medio" Clicked="StartMedium"/>
+            <Button Text="Dificil" Clicked="StartHard"/>
+        </VerticalStackLayout>
 
     </AbsoluteLayout>
 </ContentPage>
