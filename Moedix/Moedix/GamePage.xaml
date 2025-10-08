@@ -4,52 +4,44 @@
              BackgroundColor="SkyBlue">
 
     <AbsoluteLayout x:Name="GameLayout">
-
         <BoxView Color="SkyBlue"
-                 AbsoluteLayout.LayoutBounds="0,0,1,1"
-                 AbsoluteLayout.LayoutFlags="All" />
+                 AbsoluteLayout.LayoutBounds="0,0,1000,1000" />
 
         <BoxView x:Name="Ground"
                  Color="DarkGreen"
                  HeightRequest="100"
-                 AbsoluteLayout.LayoutBounds="0,1,1,0"
-                 AbsoluteLayout.LayoutFlags="WidthProportional,YProportional" />
+                 AbsoluteLayout.LayoutBounds="0,700,1000,100" />
 
         <Ellipse x:Name="Pig"
                  WidthRequest="40"
                  HeightRequest="40"
                  Fill="Pink"
-                 AbsoluteLayout.LayoutBounds="0.2,0.5,40,40"
-                 AbsoluteLayout.LayoutFlags="PositionProportional" />
+                 AbsoluteLayout.LayoutBounds="100,300,40,40" />
 
         <Rectangle x:Name="TopColumn"
                    Fill="Gray"
                    WidthRequest="60"
                    HeightRequest="200"
-                   AbsoluteLayout.LayoutBounds="1,0,60,200"
-                   AbsoluteLayout.LayoutFlags="PositionProportional" />
+                   AbsoluteLayout.LayoutBounds="500,0,60,200" />
 
         <Rectangle x:Name="BottomColumn"
                    Fill="Gray"
                    WidthRequest="60"
                    HeightRequest="200"
-                   AbsoluteLayout.LayoutBounds="1,1,60,200"
-                   AbsoluteLayout.LayoutFlags="PositionProportional,YProportional" />
+                   AbsoluteLayout.LayoutBounds="500,500,60,200" />
 
         <Label x:Name="StartLabel"
                Text="Toque para jogar"
                FontSize="28"
                TextColor="White"
-               HorizontalOptions="Center"
-               VerticalOptions="Center" />
+               AbsoluteLayout.LayoutBounds="200,300,200,60" />
 
         <Label x:Name="GameOverLabel"
                Text="Game Over!"
                FontSize="32"
                TextColor="Red"
                IsVisible="False"
-               HorizontalOptions="Center"
-               VerticalOptions="Center" />
+               AbsoluteLayout.LayoutBounds="200,200,200,60" />
 
     </AbsoluteLayout>
 </ContentPage>
