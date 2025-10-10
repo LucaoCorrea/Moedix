@@ -1,31 +1,29 @@
-﻿using System;
-using Microsoft.Maui.Controls;
-using System.Timers;
+﻿using Microsoft.Maui.Controls;
+using Microsoft.Maui.Controls.Shapes;
 using Microsoft.Maui.Graphics;
+using Moedix.Models;
+using System;
+using System.Timers;
 
 namespace Moedix
 {
     public partial class GamePage : ContentPage
     {
-        // Física
         double gravity = 0.6;
         double jumpStrength = -12;
         double pigVelocity = 0;
 
-        // Velocidade do jogo
         double gameSpeed = 4;
-        double speedIncrease = 0.0008;
+        double speedIncrease = 0.0009;
 
-        // Estado
         int score = 0;
         bool gameRunning = false;
 
-        // Timer
         System.Timers.Timer gameTimer;
 
-        // Pilares
         BoxView topPillar;
         BoxView bottomPillar;
+        Ellipse coin;
         double pillarGap = 150;
         double pillarWidth = 60;
 
@@ -36,44 +34,37 @@ namespace Moedix
             InitializeComponent();
         }
 
-        // Assim que a página for carregada
         void OnPageLoaded(object sender, NavigatedToEventArgs e)
         {
-            // Cria o gesto de toque
             var tap = new TapGestureRecognizer();
             tap.Tapped += OnTapped;
-
-            // Adiciona ao layout do jogo (NÃO à página)
             GameLayout.GestureRecognizers.Add(tap);
 
-            ShowStartScreen();
+            ResetGame();
         }
 
-        void ShowStartScreen()
+        void ResetGame()
         {
             gameRunning = false;
-            GameOverLabel.IsVisible = false;
-            RestartButton.IsVisible = false;
-            BackButton.IsVisible = true;
             score = 0;
             ScoreLabel.Text = "Pontos: 0";
+            GameOverScreen.IsVisible = false;
+            RemoveObjects();
             AbsoluteLayout.SetLayoutBounds(Pig, new Rect(100, 300, 50, 50));
-            RemovePillars();
         }
 
         void StartGame()
         {
-            BackButton.IsVisible = false;
-            RemovePillars();
-            ResetPig();
+            RemoveObjects();
             score = 0;
             ScoreLabel.Text = "Pontos: 0";
             gameSpeed = 4;
             pigVelocity = 0;
             gameRunning = true;
-            GameOverLabel.IsVisible = false;
-            RestartButton.IsVisible = false;
+            GameOverScreen.IsVisible = false;
+
             CreatePillars();
+            CreateCoin();
 
             gameTimer?.Stop();
             gameTimer = new System.Timers.Timer(20);
@@ -82,24 +73,11 @@ namespace Moedix
             gameTimer.Start();
         }
 
-        void ResetPig()
+        void RemoveObjects()
         {
-            AbsoluteLayout.SetLayoutBounds(Pig, new Rect(100, 300, 50, 50));
-            pigVelocity = 0;
-        }
-
-        void RemovePillars()
-        {
-            if (topPillar != null)
-            {
-                GameLayout.Children.Remove(topPillar);
-                topPillar = null;
-            }
-            if (bottomPillar != null)
-            {
-                GameLayout.Children.Remove(bottomPillar);
-                bottomPillar = null;
-            }
+            if (topPillar != null) GameLayout.Children.Remove(topPillar);
+            if (bottomPillar != null) GameLayout.Children.Remove(bottomPillar);
+            if (coin != null) GameLayout.Children.Remove(coin);
         }
 
         void GameLoop(object sender, ElapsedEventArgs e)
@@ -115,7 +93,7 @@ namespace Moedix
                 double newY = pigRect.Y + pigVelocity;
                 AbsoluteLayout.SetLayoutBounds(Pig, new Rect(pigRect.X, newY, pigRect.Width, pigRect.Height));
 
-                MovePillars();
+                MoveObjects();
 
                 double groundY = GameLayout.Height - Ground.HeightRequest;
                 if (newY + pigRect.Height >= groundY || newY <= 0 || CheckCollision())
@@ -123,38 +101,26 @@ namespace Moedix
                     EndGame();
                     return;
                 }
+
+                CheckCoinCollection();
             });
         }
 
         void CreatePillars()
         {
-            double canvasWidth = Math.Max(GameLayout.Width, 800);
             double canvasHeight = Math.Max(GameLayout.Height, 800);
-
             double topHeight = random.Next(80, (int)(canvasHeight * 0.45));
             double bottomY = topHeight + pillarGap;
             double bottomHeight = Math.Max(100, canvasHeight - bottomY - Ground.HeightRequest);
 
             MainThread.BeginInvokeOnMainThread(() =>
             {
-                RemovePillars();
+                RemoveObjects();
 
-                topPillar = new BoxView
-                {
-                    Color = Colors.SaddleBrown,
-                    WidthRequest = pillarWidth,
-                    HeightRequest = topHeight
-                };
+                topPillar = new BoxView { Color = Colors.SaddleBrown, WidthRequest = pillarWidth, HeightRequest = topHeight };
+                bottomPillar = new BoxView { Color = Colors.SaddleBrown, WidthRequest = pillarWidth, HeightRequest = bottomHeight };
 
-                bottomPillar = new BoxView
-                {
-                    Color = Colors.SaddleBrown,
-                    WidthRequest = pillarWidth,
-                    HeightRequest = bottomHeight
-                };
-
-                double startX = canvasWidth + 30;
-
+                double startX = GameLayout.Width + 50;
                 AbsoluteLayout.SetLayoutBounds(topPillar, new Rect(startX, 0, pillarWidth, topHeight));
                 AbsoluteLayout.SetLayoutBounds(bottomPillar, new Rect(startX, bottomY, pillarWidth, bottomHeight));
 
@@ -163,45 +129,113 @@ namespace Moedix
             });
         }
 
-        void MovePillars()
+        void CreateCoin()
         {
-            if (topPillar == null || bottomPillar == null) return;
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                coin = new Ellipse
+                {
+                    Fill = Colors.Gold,
+                    WidthRequest = 25,
+                    HeightRequest = 25
+                };
+
+                double startX = GameLayout.Width + 100;
+                double startY = random.Next(150, (int)(GameLayout.Height - 200));
+
+                AbsoluteLayout.SetLayoutBounds(coin, new Rect(startX, startY, 25, 25));
+                GameLayout.Children.Add(coin);
+            });
+        }
+
+        void MoveObjects()
+        {
+            MovePillar(topPillar);
+            MovePillar(bottomPillar);
+            MoveCoin();
 
             var topRect = AbsoluteLayout.GetLayoutBounds(topPillar);
-            var bottomRect = AbsoluteLayout.GetLayoutBounds(bottomPillar);
-
-            topRect.X -= gameSpeed;
-            bottomRect.X -= gameSpeed;
-
-            AbsoluteLayout.SetLayoutBounds(topPillar, topRect);
-            AbsoluteLayout.SetLayoutBounds(bottomPillar, bottomRect);
-
             if (topRect.X + topRect.Width < 0)
             {
                 score++;
                 ScoreLabel.Text = $"Pontos: {score}";
                 CreatePillars();
+                if (random.Next(0, 3) == 1) CreateCoin();
+            }
+        }
+
+        void MovePillar(BoxView pillar)
+        {
+            if (pillar == null) return;
+            var rect = AbsoluteLayout.GetLayoutBounds(pillar);
+            rect.X -= gameSpeed;
+            AbsoluteLayout.SetLayoutBounds(pillar, rect);
+        }
+
+        void MoveCoin()
+        {
+            if (coin == null) return;
+            var rect = AbsoluteLayout.GetLayoutBounds(coin);
+            rect.X -= gameSpeed;
+            AbsoluteLayout.SetLayoutBounds(coin, rect);
+
+            if (rect.X + rect.Width < 0)
+            {
+                GameLayout.Children.Remove(coin);
+                coin = null;
+            }
+        }
+
+        void CheckCoinCollection()
+        {
+            if (coin == null) return;
+            var pigRect = AbsoluteLayout.GetLayoutBounds(Pig);
+            var coinRect = AbsoluteLayout.GetLayoutBounds(coin);
+
+            bool collected = pigRect.X < coinRect.X + coinRect.Width &&
+                             pigRect.X + pigRect.Width > coinRect.X &&
+                             pigRect.Y < coinRect.Y + coinRect.Height &&
+                             pigRect.Y + pigRect.Height > coinRect.Y;
+
+            if (collected)
+            {
+                GameLayout.Children.Remove(coin);
+                coin = null;
+                PlayerData.Instance.Coins += 1;
+                PlayerData.Instance.Save();
             }
         }
 
         bool CheckCollision()
         {
             if (topPillar == null || bottomPillar == null) return false;
-
             var pig = AbsoluteLayout.GetLayoutBounds(Pig);
             var top = AbsoluteLayout.GetLayoutBounds(topPillar);
             var bottom = AbsoluteLayout.GetLayoutBounds(bottomPillar);
 
-            bool hitTop = pig.X + pig.Width > top.X && pig.X < top.X + top.Width && pig.Y < top.Height;
-            bool hitBottom = pig.X + pig.Width > bottom.X && pig.X < bottom.X + bottom.Width && pig.Y + pig.Height > bottom.Y;
-
-            return hitTop || hitBottom;
+            return (pig.X + pig.Width > top.X && pig.X < top.X + top.Width && pig.Y < top.Height) ||
+                   (pig.X + pig.Width > bottom.X && pig.X < bottom.X + bottom.Width && pig.Y + pig.Height > bottom.Y);
         }
 
-        private void OnPageLoaded(object sender, EventArgs e)
+        void EndGame()
         {
-            // Aqui vai o que você quer que aconteça quando a página for carregada
+            gameRunning = false;
+            try { gameTimer?.Stop(); } catch { }
+
+            if (score > PlayerData.Instance.HighScore)
+            {
+                PlayerData.Instance.HighScore = score;
+            }
+
+            PlayerData.Instance.Save();
+
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                GameOverScreen.IsVisible = true;
+                FinalScoreLabel.Text = $"Pontos: {score}\nRecorde: {PlayerData.Instance.HighScore}\nMoedas: {PlayerData.Instance.Coins}";
+            });
         }
+
         void OnTapped(object sender, EventArgs e)
         {
             if (!gameRunning)
@@ -212,24 +246,9 @@ namespace Moedix
             pigVelocity = jumpStrength;
         }
 
-        void EndGame()
-        {
-            gameRunning = false;
-            try { gameTimer?.Stop(); } catch { }
-
-            MainThread.BeginInvokeOnMainThread(() =>
-            {
-                GameOverLabel.IsVisible = true;
-                RestartButton.IsVisible = true;
-                BackButton.IsVisible = true;
-            });
-        }
-
         void RestartGame(object sender, EventArgs e)
         {
-            try { gameTimer?.Stop(); } catch { }
-            RemovePillars();
-            ResetPig();
+            ResetGame();
             StartGame();
         }
 

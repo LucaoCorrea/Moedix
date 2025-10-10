@@ -6,6 +6,7 @@
              NavigatedTo="OnPageLoaded">
 
     <AbsoluteLayout x:Name="GameLayout">
+
         <BoxView Color="#8ED6FF"
                  AbsoluteLayout.LayoutBounds="0,0,1,1"
                  AbsoluteLayout.LayoutFlags="All" />
@@ -29,36 +30,35 @@
                TextColor="White"
                AbsoluteLayout.LayoutBounds="20,20,200,40" />
 
-        <Label x:Name="GameOverLabel"
-               Text="Game Over"
-               FontSize="36"
-               FontAttributes="Bold"
-               TextColor="Red"
-               IsVisible="False"
-               HorizontalTextAlignment="Center"
-               AbsoluteLayout.LayoutBounds="0.5,0.35,0.6,80"
-               AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional" />
-
-        <Button x:Name="RestartButton"
-                Text="Jogar novamente"
-                BackgroundColor="#FFD700"
-                TextColor="Black"
-                FontAttributes="Bold"
-                CornerRadius="15"
-                IsVisible="False"
-                Clicked="RestartGame"
-                AbsoluteLayout.LayoutBounds="0.5,0.5,200,60"
-                AbsoluteLayout.LayoutFlags="PositionProportional" />
-
-        <Button x:Name="BackButton"
-                Text="Voltar"
-                BackgroundColor="#FFD700"
-                TextColor="Black"
-                FontAttributes="Bold"
-                CornerRadius="10"
-                Clicked="GoBackToMainPage"
-                AbsoluteLayout.LayoutBounds="0.05,0.05,100,40"
-                AbsoluteLayout.LayoutFlags="PositionProportional" />
+        <Grid x:Name="GameOverScreen"
+              BackgroundColor="Black"
+              IsVisible="False"
+              AbsoluteLayout.LayoutBounds="0,0,1,1"
+              AbsoluteLayout.LayoutFlags="All">
+            <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
+                <Label Text="GAME OVER"
+                       FontSize="48"
+                       FontAttributes="Bold"
+                       TextColor="Red"
+                       HorizontalOptions="Center"/>
+                <Label x:Name="FinalScoreLabel"
+                       FontSize="24"
+                       TextColor="White"
+                       HorizontalOptions="Center"/>
+                <Button Text="Jogar Novamente"
+                        Clicked="RestartGame"
+                        BackgroundColor="#FFD700"
+                        CornerRadius="15"
+                        WidthRequest="220"
+                        HeightRequest="60"/>
+                <Button Text="Voltar ao Menu"
+                        Clicked="GoBackToMainPage"
+                        BackgroundColor="Gray"
+                        CornerRadius="10"
+                        WidthRequest="200"
+                        HeightRequest="50"/>
+            </VerticalStackLayout>
+        </Grid>
 
     </AbsoluteLayout>
 </ContentPage>

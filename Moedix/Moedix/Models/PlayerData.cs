@@ -1,11 +1,41 @@
-﻿namespace Moedix.Models;
+﻿using System.Text.Json;
 
-public class PlayerData
+namespace Moedix.Models
 {
-    public int Coins { get; set; } = 0;
-    public int BestScore { get; set; } = 0;
-    public List<string> OwnedSkins { get; set; } = new();
+    public class PlayerData
+    {
+        private static PlayerData _instance;
+        public static PlayerData Instance => _instance ??= Load();
 
-    private static PlayerData _instance;
-    public static PlayerData Instance => _instance ??= new PlayerData();
+        public int Coins { get; set; } = 0;
+        public int HighScore { get; set; } = 0;
+        public HashSet<string> OwnedSkins { get; set; } = new();
+
+        private const string StorageKey = "player_data.json";
+        private static string FilePath => Path.Combine(FileSystem.AppDataDirectory, StorageKey);
+
+        public static PlayerData Load()
+        {
+            try
+            {
+                if (File.Exists(FilePath))
+                {
+                    var json = File.ReadAllText(FilePath);
+                    return JsonSerializer.Deserialize<PlayerData>(json) ?? new PlayerData();
+                }
+            }
+            catch { }
+            return new PlayerData();
+        }
+
+        public void Save()
+        {
+            try
+            {
+                var json = JsonSerializer.Serialize(this);
+                File.WriteAllText(FilePath, json);
+            }
+            catch { }
+        }
+    }
 }
