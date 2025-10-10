@@ -1,184 +1,242 @@
-﻿using Microsoft.Maui.Controls.Shapes;
+﻿using System;
+using Microsoft.Maui.Controls;
+using System.Timers;
+using Microsoft.Maui.Graphics;
 
-namespace Moedix;
-
-public partial class GamePage : ContentPage
+namespace Moedix
 {
-    double gravity = 1.5;
-    double jumpForce = -20;
-    double pigY = 300;
-    double velocityY = 0;
-    double pipeSpeed = 5;
-    double gapSize = 200;
-
-    const double PigX = 100;
-    const double PigSize = 50;
-    const double GroundY = 650;
-
-    int score = 0;
-    bool isGameOver = false;
-    bool isStarted = false;
-
-    List<Rectangle> obstacles = new();
-    IDispatcherTimer timer;
-    Random rnd = new();
-
-    public GamePage()
+    public partial class GamePage : ContentPage
     {
-        InitializeComponent();
-    }
+        // Física
+        double gravity = 0.6;
+        double jumpStrength = -12;
+        double pigVelocity = 0;
 
-    // Início do jogo com dificuldade
-    void StartGame(double gravityVal, double speed, double gap)
-    {
-        DifficultyMenu.IsVisible = false;
-        gravity = gravityVal;
-        pipeSpeed = speed;
-        gapSize = gap;
+        // Velocidade do jogo
+        double gameSpeed = 4;
+        double speedIncrease = 0.0008;
 
-        isStarted = true;
-        StartGameLoop();
+        // Estado
+        int score = 0;
+        bool gameRunning = false;
 
-        GameLayout.GestureRecognizers.Add(new TapGestureRecognizer
+        // Timer
+        System.Timers.Timer gameTimer;
+
+        // Pilares
+        BoxView topPillar;
+        BoxView bottomPillar;
+        double pillarGap = 150;
+        double pillarWidth = 60;
+
+        Random random = new();
+
+        public GamePage()
         {
-            Command = new Command(() =>
-            {
-                if (!isGameOver)
-                    velocityY = jumpForce;
-            })
-        });
-    }
+            InitializeComponent();
+        }
 
-    void StartEasy(object sender, EventArgs e) => StartGame(1.2, 5, 220);
-    void StartMedium(object sender, EventArgs e) => StartGame(1.6, 7, 200);
-    void StartHard(object sender, EventArgs e) => StartGame(2.2, 9, 180);
-
-    void StartGameLoop()
-    {
-        timer = Dispatcher.CreateTimer();
-        timer.Interval = TimeSpan.FromMilliseconds(8.33); // ~120 FPS
-        timer.Tick += (s, e) => UpdateGame();
-        timer.Start();
-    }
-
-    void UpdateGame()
-    {
-        if (isGameOver) return;
-
-        velocityY += gravity;
-        pigY += velocityY;
-        AbsoluteLayout.SetLayoutBounds(Pig, new Rect(PigX, pigY, PigSize, PigSize));
-
-        // Gera obstáculos
-        if (obstacles.Count == 0 || obstacles.Last().X < 400)
-            CreateObstacle();
-
-        // Move obstáculos e verifica colisão
-        for (int i = obstacles.Count - 1; i >= 0; i--)
+        // Assim que a página for carregada
+        void OnPageLoaded(object sender, NavigatedToEventArgs e)
         {
-            var rect = obstacles[i];
-            var bounds = AbsoluteLayout.GetLayoutBounds(rect);
-            bounds.X -= pipeSpeed;
+            // Cria o gesto de toque
+            var tap = new TapGestureRecognizer();
+            tap.Tapped += OnTapped;
 
-            if (bounds.X + bounds.Width < 0)
+            // Adiciona ao layout do jogo (NÃO à página)
+            GameLayout.GestureRecognizers.Add(tap);
+
+            ShowStartScreen();
+        }
+
+        void ShowStartScreen()
+        {
+            gameRunning = false;
+            GameOverLabel.IsVisible = false;
+            RestartButton.IsVisible = false;
+            BackButton.IsVisible = true;
+            score = 0;
+            ScoreLabel.Text = "Pontos: 0";
+            AbsoluteLayout.SetLayoutBounds(Pig, new Rect(100, 300, 50, 50));
+            RemovePillars();
+        }
+
+        void StartGame()
+        {
+            BackButton.IsVisible = false;
+            RemovePillars();
+            ResetPig();
+            score = 0;
+            ScoreLabel.Text = "Pontos: 0";
+            gameSpeed = 4;
+            pigVelocity = 0;
+            gameRunning = true;
+            GameOverLabel.IsVisible = false;
+            RestartButton.IsVisible = false;
+            CreatePillars();
+
+            gameTimer?.Stop();
+            gameTimer = new System.Timers.Timer(20);
+            gameTimer.Elapsed += GameLoop;
+            gameTimer.AutoReset = true;
+            gameTimer.Start();
+        }
+
+        void ResetPig()
+        {
+            AbsoluteLayout.SetLayoutBounds(Pig, new Rect(100, 300, 50, 50));
+            pigVelocity = 0;
+        }
+
+        void RemovePillars()
+        {
+            if (topPillar != null)
             {
-                GameLayout.Children.Remove(rect);
-                obstacles.RemoveAt(i);
-                continue;
+                GameLayout.Children.Remove(topPillar);
+                topPillar = null;
             }
-
-            AbsoluteLayout.SetLayoutBounds(rect, bounds);
-
-            // Verificando colisão com os obstáculos
-            if (CheckCollision(bounds))
+            if (bottomPillar != null)
             {
-                EndGame();
-                return;
+                GameLayout.Children.Remove(bottomPillar);
+                bottomPillar = null;
             }
+        }
 
-            // Ganha ponto ao passar o obstáculo
-            if (!isGameOver && bounds.X + bounds.Width < PigX && !rect.ClassId?.StartsWith("counted") == true)
+        void GameLoop(object sender, ElapsedEventArgs e)
+        {
+            if (!gameRunning) return;
+
+            gameSpeed += speedIncrease;
+            pigVelocity += gravity;
+
+            MainThread.BeginInvokeOnMainThread(() =>
             {
-                rect.ClassId = "counted";
+                var pigRect = AbsoluteLayout.GetLayoutBounds(Pig);
+                double newY = pigRect.Y + pigVelocity;
+                AbsoluteLayout.SetLayoutBounds(Pig, new Rect(pigRect.X, newY, pigRect.Width, pigRect.Height));
+
+                MovePillars();
+
+                double groundY = GameLayout.Height - Ground.HeightRequest;
+                if (newY + pigRect.Height >= groundY || newY <= 0 || CheckCollision())
+                {
+                    EndGame();
+                    return;
+                }
+            });
+        }
+
+        void CreatePillars()
+        {
+            double canvasWidth = Math.Max(GameLayout.Width, 800);
+            double canvasHeight = Math.Max(GameLayout.Height, 800);
+
+            double topHeight = random.Next(80, (int)(canvasHeight * 0.45));
+            double bottomY = topHeight + pillarGap;
+            double bottomHeight = Math.Max(100, canvasHeight - bottomY - Ground.HeightRequest);
+
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                RemovePillars();
+
+                topPillar = new BoxView
+                {
+                    Color = Colors.SaddleBrown,
+                    WidthRequest = pillarWidth,
+                    HeightRequest = topHeight
+                };
+
+                bottomPillar = new BoxView
+                {
+                    Color = Colors.SaddleBrown,
+                    WidthRequest = pillarWidth,
+                    HeightRequest = bottomHeight
+                };
+
+                double startX = canvasWidth + 30;
+
+                AbsoluteLayout.SetLayoutBounds(topPillar, new Rect(startX, 0, pillarWidth, topHeight));
+                AbsoluteLayout.SetLayoutBounds(bottomPillar, new Rect(startX, bottomY, pillarWidth, bottomHeight));
+
+                GameLayout.Children.Add(topPillar);
+                GameLayout.Children.Add(bottomPillar);
+            });
+        }
+
+        void MovePillars()
+        {
+            if (topPillar == null || bottomPillar == null) return;
+
+            var topRect = AbsoluteLayout.GetLayoutBounds(topPillar);
+            var bottomRect = AbsoluteLayout.GetLayoutBounds(bottomPillar);
+
+            topRect.X -= gameSpeed;
+            bottomRect.X -= gameSpeed;
+
+            AbsoluteLayout.SetLayoutBounds(topPillar, topRect);
+            AbsoluteLayout.SetLayoutBounds(bottomPillar, bottomRect);
+
+            if (topRect.X + topRect.Width < 0)
+            {
                 score++;
                 ScoreLabel.Text = $"Pontos: {score}";
+                CreatePillars();
             }
         }
 
-        // Verificando colisão com o topo ou chão da tela
-        if (pigY + PigSize >= GroundY || pigY < 0)
+        bool CheckCollision()
         {
-            EndGame();
-        }
-    }
+            if (topPillar == null || bottomPillar == null) return false;
 
-    // Verificação de colisão com os obstáculos
-    bool CheckCollision(Rect obstacle)
-    {
-        var pigRect = new Rect(PigX, pigY, PigSize, PigSize);
+            var pig = AbsoluteLayout.GetLayoutBounds(Pig);
+            var top = AbsoluteLayout.GetLayoutBounds(topPillar);
+            var bottom = AbsoluteLayout.GetLayoutBounds(bottomPillar);
 
-        // Verificando colisão com o obstáculo superior
-        if (pigRect.IntersectsWith(obstacle)) return true;
+            bool hitTop = pig.X + pig.Width > top.X && pig.X < top.X + top.Width && pig.Y < top.Height;
+            bool hitBottom = pig.X + pig.Width > bottom.X && pig.X < bottom.X + bottom.Width && pig.Y + pig.Height > bottom.Y;
 
-        // Obtendo o "bottomY" do obstáculo (posição do obstáculo inferior)
-        var bottomY = obstacle.Y + gapSize;
-
-        // Ajustando o valor de bottomY para fazer a colisão acontecer mais abaixo
-        double offset = 30; // Ajuste esse valor para o quanto você quiser que a colisão ocorra mais embaixo
-        bottomY += offset;
-
-        // Verificando a colisão com a parte inferior do obstáculo (ajustado para ser mais embaixo)
-        if (pigY + PigSize >= bottomY && pigY + PigSize <= bottomY + (800 - bottomY))
-        {
-            return true; // O porquinho colidiu com o obstáculo inferior
+            return hitTop || hitBottom;
         }
 
-        return false; // Nenhuma colisão
-    }
-
-
-    // Criando obstáculos
-    void CreateObstacle()
-    {
-        double topHeight = rnd.Next(100, 400); // Altura aleatória para o topo
-        double bottomY = topHeight + gapSize;  // Posição da base dos obstáculos
-
-        var topPipe = new Rectangle
+        private void OnPageLoaded(object sender, EventArgs e)
         {
-            Fill = new SolidColorBrush(Color.FromArgb("#808080")), // Cor do topo
-            WidthRequest = 60,
-            HeightRequest = topHeight
-        };
-
-        var bottomPipe = new Rectangle
+            // Aqui vai o que você quer que aconteça quando a página for carregada
+        }
+        void OnTapped(object sender, EventArgs e)
         {
-            Fill = new SolidColorBrush(Color.FromArgb("#808080")), // Cor da base
-            WidthRequest = 60,
-            HeightRequest = 800 - bottomY
-        };
+            if (!gameRunning)
+            {
+                StartGame();
+                return;
+            }
+            pigVelocity = jumpStrength;
+        }
 
-        // Definindo posições iniciais dos obstáculos
-        // Aqui, usamos AbsoluteLayout.SetLayoutBounds corretamente:
-        AbsoluteLayout.SetLayoutBounds(topPipe, new Rect(800, 0, 60, topHeight));
-        AbsoluteLayout.SetLayoutBounds(bottomPipe, new Rect(800, bottomY, 60, 800 - bottomY));
+        void EndGame()
+        {
+            gameRunning = false;
+            try { gameTimer?.Stop(); } catch { }
 
-        // Adicionando obstáculos ao layout
-        GameLayout.Children.Add(topPipe);
-        GameLayout.Children.Add(bottomPipe);
-        obstacles.Add(topPipe);
-        obstacles.Add(bottomPipe);
-    }
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                GameOverLabel.IsVisible = true;
+                RestartButton.IsVisible = true;
+                BackButton.IsVisible = true;
+            });
+        }
 
-    void EndGame()
-    {
-        isGameOver = true;
-        timer.Stop();
-        GameOverLabel.IsVisible = true;
-        RestartButton.IsVisible = true;
-    }
+        void RestartGame(object sender, EventArgs e)
+        {
+            try { gameTimer?.Stop(); } catch { }
+            RemovePillars();
+            ResetPig();
+            StartGame();
+        }
 
-    void RestartGame(object sender, EventArgs e)
-    {
-        Navigation.PushAsync(new GamePage());
+        async void GoBackToMainPage(object sender, EventArgs e)
+        {
+            try { gameTimer?.Stop(); } catch { }
+            await Navigation.PopAsync();
+        }
     }
 }

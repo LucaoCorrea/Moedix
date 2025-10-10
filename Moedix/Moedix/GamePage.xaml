@@ -2,10 +2,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Moedix.GamePage"
              BackgroundColor="#8ED6FF"
-             Title="Moedix - Flappy Pig">
+             Title="Moedix - Flappy Pig"
+             NavigatedTo="OnPageLoaded">
 
     <AbsoluteLayout x:Name="GameLayout">
-
         <BoxView Color="#8ED6FF"
                  AbsoluteLayout.LayoutBounds="0,0,1,1"
                  AbsoluteLayout.LayoutFlags="All" />
@@ -30,13 +30,13 @@
                AbsoluteLayout.LayoutBounds="20,20,200,40" />
 
         <Label x:Name="GameOverLabel"
-               Text="Game Over!"
+               Text="Game Over"
                FontSize="36"
                FontAttributes="Bold"
                TextColor="Red"
                IsVisible="False"
                HorizontalTextAlignment="Center"
-               AbsoluteLayout.LayoutBounds="0.5,0.4,0.6,80"
+               AbsoluteLayout.LayoutBounds="0.5,0.35,0.6,80"
                AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional" />
 
         <Button x:Name="RestartButton"
@@ -47,21 +47,18 @@
                 CornerRadius="15"
                 IsVisible="False"
                 Clicked="RestartGame"
-                AbsoluteLayout.LayoutBounds="0.5,0.55,200,60"
+                AbsoluteLayout.LayoutBounds="0.5,0.5,200,60"
                 AbsoluteLayout.LayoutFlags="PositionProportional" />
 
-        <VerticalStackLayout x:Name="DifficultyMenu"
-                             HorizontalOptions="Center"
-                             VerticalOptions="Center"
-                             Spacing="15">
-            <Label Text="Selecione a dificuldade"
-                   FontSize="24"
-                   TextColor="Black"
-                   HorizontalOptions="Center"/>
-            <Button Text="Facil" Clicked="StartEasy"/>
-            <Button Text="Medio" Clicked="StartMedium"/>
-            <Button Text="Dificil" Clicked="StartHard"/>
-        </VerticalStackLayout>
+        <Button x:Name="BackButton"
+                Text="Voltar"
+                BackgroundColor="#FFD700"
+                TextColor="Black"
+                FontAttributes="Bold"
+                CornerRadius="10"
+                Clicked="GoBackToMainPage"
+                AbsoluteLayout.LayoutBounds="0.05,0.05,100,40"
+                AbsoluteLayout.LayoutFlags="PositionProportional" />
 
     </AbsoluteLayout>
 </ContentPage>
