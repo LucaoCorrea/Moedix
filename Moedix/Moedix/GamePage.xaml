@@ -1,9 +1,9 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Moedix.GamePage"
+             NavigatedTo="OnPageLoaded"
              BackgroundColor="#8ED6FF"
-             Title="Moedix - Flappy Pig"
-             NavigatedTo="OnPageLoaded">
+             Title="Moedix - Flappy Pig">
 
     <AbsoluteLayout x:Name="GameLayout">
 
@@ -12,7 +12,7 @@
                  AbsoluteLayout.LayoutFlags="All" />
 
         <BoxView x:Name="Ground"
-                 Color="#006400"
+                 Color="#228B22"
                  HeightRequest="100"
                  AbsoluteLayout.LayoutBounds="0,1,1,100"
                  AbsoluteLayout.LayoutFlags="WidthProportional, YProportional" />
@@ -21,6 +21,8 @@
                  WidthRequest="50"
                  HeightRequest="50"
                  Fill="Pink"
+                 Stroke="Black"
+                 StrokeThickness="2"
                  AbsoluteLayout.LayoutBounds="100,300,50,50" />
 
         <Label x:Name="ScoreLabel"
@@ -31,32 +33,33 @@
                AbsoluteLayout.LayoutBounds="20,20,200,40" />
 
         <Grid x:Name="GameOverScreen"
-              BackgroundColor="Black"
               IsVisible="False"
+              BackgroundColor="#80000000"
               AbsoluteLayout.LayoutBounds="0,0,1,1"
               AbsoluteLayout.LayoutFlags="All">
-            <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
-                <Label Text="GAME OVER"
-                       FontSize="48"
-                       FontAttributes="Bold"
-                       TextColor="Red"
-                       HorizontalOptions="Center"/>
+
+            <VerticalStackLayout HorizontalOptions="Center"
+                                 VerticalOptions="Center"
+                                 Spacing="15">
+
                 <Label x:Name="FinalScoreLabel"
-                       FontSize="24"
+                       Text="Game Over!"
+                       FontSize="32"
+                       FontAttributes="Bold"
                        TextColor="White"
-                       HorizontalOptions="Center"/>
-                <Button Text="Jogar Novamente"
-                        Clicked="RestartGame"
+                       HorizontalTextAlignment="Center" />
+
+                <Button Text="Jogar novamente"
                         BackgroundColor="#FFD700"
-                        CornerRadius="15"
-                        WidthRequest="220"
-                        HeightRequest="60"/>
-                <Button Text="Voltar ao Menu"
-                        Clicked="GoBackToMainPage"
-                        BackgroundColor="Gray"
-                        CornerRadius="10"
-                        WidthRequest="200"
-                        HeightRequest="50"/>
+                        TextColor="Black"
+                        CornerRadius="20"
+                        Clicked="RestartGame" />
+
+                <Button Text="Voltar"
+                        BackgroundColor="#FFF"
+                        TextColor="Black"
+                        CornerRadius="20"
+                        Clicked="GoBackToMainPage" />
             </VerticalStackLayout>
         </Grid>
 

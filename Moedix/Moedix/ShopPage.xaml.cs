@@ -38,5 +38,10 @@ namespace Moedix
             else
                 DisplayAlert("Moedas insuficientes", "Continue jogando!", "OK");
         }
+
+        private async void GoBack(object sender, EventArgs e)
+        {
+            await Navigation.PopAsync();
+        }
     }
 }

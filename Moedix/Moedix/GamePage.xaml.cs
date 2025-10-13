@@ -1,6 +1,4 @@
-﻿using Microsoft.Maui.Controls;
-using Microsoft.Maui.Controls.Shapes;
-using Microsoft.Maui.Graphics;
+﻿using Microsoft.Maui.Controls.Shapes;
 using Moedix.Models;
 using System;
 using System.Timers;
@@ -12,17 +10,14 @@ namespace Moedix
         double gravity = 0.6;
         double jumpStrength = -12;
         double pigVelocity = 0;
-
         double gameSpeed = 4;
-        double speedIncrease = 0.0009;
-
+        double speedIncrease = 0.001;
         int score = 0;
         bool gameRunning = false;
 
         System.Timers.Timer gameTimer;
 
-        BoxView topPillar;
-        BoxView bottomPillar;
+        BoxView topPillar, bottomPillar;
         Ellipse coin;
         double pillarGap = 150;
         double pillarWidth = 60;
@@ -39,7 +34,6 @@ namespace Moedix
             var tap = new TapGestureRecognizer();
             tap.Tapped += OnTapped;
             GameLayout.GestureRecognizers.Add(tap);
-
             ResetGame();
         }
 
@@ -57,12 +51,10 @@ namespace Moedix
         {
             RemoveObjects();
             score = 0;
-            ScoreLabel.Text = "Pontos: 0";
             gameSpeed = 4;
             pigVelocity = 0;
             gameRunning = true;
             GameOverScreen.IsVisible = false;
-
             CreatePillars();
             CreateCoin();
 
@@ -116,7 +108,6 @@ namespace Moedix
             MainThread.BeginInvokeOnMainThread(() =>
             {
                 RemoveObjects();
-
                 topPillar = new BoxView { Color = Colors.SaddleBrown, WidthRequest = pillarWidth, HeightRequest = topHeight };
                 bottomPillar = new BoxView { Color = Colors.SaddleBrown, WidthRequest = pillarWidth, HeightRequest = bottomHeight };
 
@@ -141,9 +132,15 @@ namespace Moedix
                 };
 
                 double startX = GameLayout.Width + 100;
-                double startY = random.Next(150, (int)(GameLayout.Height - 200));
 
-                AbsoluteLayout.SetLayoutBounds(coin, new Rect(startX, startY, 25, 25));
+                double coinY;
+                if (random.Next(0, 2) == 0)
+                    coinY = random.Next(50, (int)(AbsoluteLayout.GetLayoutBounds(topPillar).Height - 40));
+                else
+                    coinY = random.Next((int)(AbsoluteLayout.GetLayoutBounds(bottomPillar).Y + 40),
+                                        (int)(GameLayout.Height - Ground.HeightRequest - 60));
+
+                AbsoluteLayout.SetLayoutBounds(coin, new Rect(startX, coinY, 25, 25));
                 GameLayout.Children.Add(coin);
             });
         }
@@ -178,7 +175,6 @@ namespace Moedix
             var rect = AbsoluteLayout.GetLayoutBounds(coin);
             rect.X -= gameSpeed;
             AbsoluteLayout.SetLayoutBounds(coin, rect);
-
             if (rect.X + rect.Width < 0)
             {
                 GameLayout.Children.Remove(coin);
@@ -192,10 +188,7 @@ namespace Moedix
             var pigRect = AbsoluteLayout.GetLayoutBounds(Pig);
             var coinRect = AbsoluteLayout.GetLayoutBounds(coin);
 
-            bool collected = pigRect.X < coinRect.X + coinRect.Width &&
-                             pigRect.X + pigRect.Width > coinRect.X &&
-                             pigRect.Y < coinRect.Y + coinRect.Height &&
-                             pigRect.Y + pigRect.Height > coinRect.Y;
+            bool collected = pigRect.IntersectsWith(coinRect);
 
             if (collected)
             {
@@ -213,19 +206,16 @@ namespace Moedix
             var top = AbsoluteLayout.GetLayoutBounds(topPillar);
             var bottom = AbsoluteLayout.GetLayoutBounds(bottomPillar);
 
-            return (pig.X + pig.Width > top.X && pig.X < top.X + top.Width && pig.Y < top.Height) ||
-                   (pig.X + pig.Width > bottom.X && pig.X < bottom.X + bottom.Width && pig.Y + pig.Height > bottom.Y);
+            return (pig.IntersectsWith(top) || pig.IntersectsWith(bottom));
         }
 
         void EndGame()
         {
             gameRunning = false;
-            try { gameTimer?.Stop(); } catch { }
+            gameTimer?.Stop();
 
             if (score > PlayerData.Instance.HighScore)
-            {
                 PlayerData.Instance.HighScore = score;
-            }
 
             PlayerData.Instance.Save();
 
@@ -243,6 +233,7 @@ namespace Moedix
                 StartGame();
                 return;
             }
+
             pigVelocity = jumpStrength;
         }
 
@@ -254,7 +245,7 @@ namespace Moedix
 
         async void GoBackToMainPage(object sender, EventArgs e)
         {
-            try { gameTimer?.Stop(); } catch { }
+            gameTimer?.Stop();
             await Navigation.PopAsync();
         }
     }

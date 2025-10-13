@@ -2,13 +2,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Moedix.ShopPage"
              Title="Loja"
-             BackgroundColor="#F0E68C">
+             BackgroundColor="#FFF9C4">
 
     <VerticalStackLayout Padding="20" Spacing="15">
         <Label Text="Loja Moedix"
                FontSize="32"
                FontAttributes="Bold"
-               TextColor="Brown"
+               TextColor="#6B3E26"
                HorizontalOptions="Center" />
 
         <Label x:Name="CoinsLabel"
@@ -17,9 +17,24 @@
                Text="Moedas: 0"
                HorizontalOptions="Center" />
 
-        <Button Text="Skin Dourada (50 moedas)"
-                Clicked="BuyGoldenSkin" />
-        <Button Text="Poder de voo extra (100 moedas)"
-                Clicked="BuyExtraPower" />
+        <Frame BackgroundColor="#FFF176" CornerRadius="15">
+            <Button Text="Skin Dourada (50 moedas)"
+                    TextColor="Brown"
+                    BackgroundColor="#FFD54F"
+                    Clicked="BuyGoldenSkin" />
+        </Frame>
+
+        <Frame BackgroundColor="#B3E5FC" CornerRadius="15">
+            <Button Text="Poder de voo extra (100 moedas)"
+                    TextColor="Navy"
+                    BackgroundColor="#81D4FA"
+                    Clicked="BuyExtraPower" />
+        </Frame>
+
+        <Button Text="Voltar"
+                Clicked="GoBack"
+                BackgroundColor="#FF8A65"
+                TextColor="White"
+                CornerRadius="12" />
     </VerticalStackLayout>
 </ContentPage>
