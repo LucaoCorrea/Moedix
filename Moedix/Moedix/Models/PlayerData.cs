@@ -10,6 +10,9 @@ namespace Moedix.Models
         public int Coins { get; set; } = 0;
         public int HighScore { get; set; } = 0;
         public HashSet<string> OwnedSkins { get; set; } = new();
+        public HashSet<string> OwnedPowers { get; set; } = new();
+        public string? SelectedSkin { get; set; }
+        public bool PowerEnabled { get; set; } = false;
 
         private const string StorageKey = "player_data.json";
         private static string FilePath => Path.Combine(FileSystem.AppDataDirectory, StorageKey);

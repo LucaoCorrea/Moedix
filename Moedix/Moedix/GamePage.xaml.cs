@@ -34,7 +34,40 @@ namespace Moedix
             var tap = new TapGestureRecognizer();
             tap.Tapped += OnTapped;
             GameLayout.GestureRecognizers.Add(tap);
+
+            ApplyPlayerCustomizations();
             ResetGame();
+        }
+
+        void ApplyPlayerCustomizations()
+        {
+            var player = PlayerData.Instance;
+
+            string selectedSkin = player.SelectedSkin ?? "Padrão";
+
+            if (selectedSkin == "GoldenPig")
+            {
+                Pig.Fill = new RadialGradientBrush
+                {                    GradientStops =
+            {
+                new GradientStop(Color.FromArgb("#FFD700"), 0.2f),
+                new GradientStop(Color.FromArgb("#B8860B"), 1f)
+            }
+                };
+            }
+            else
+            {
+                Pig.Fill = new SolidColorBrush(Colors.Pink);
+            }
+
+            if (player.OwnedPowers.Contains("ExtraPower") && player.PowerEnabled)
+            {
+                jumpStrength = -10; 
+            }
+            else
+            {
+                jumpStrength = -12; 
+            }
         }
 
         void ResetGame()
@@ -126,14 +159,11 @@ namespace Moedix
             {
                 if (topPillar == null || bottomPillar == null) return;
 
-                // 🔸 Valor aleatório da moeda (1 a 10)
                 int coinValue = random.Next(1, 11);
 
-                // 🔸 Tamanho proporcional ao valor
                 double baseSize = 20;
                 double coinSize = baseSize + (coinValue * 3);
 
-                // 🔸 Cor conforme valor (baixa = bronze, média = prata, alta = ouro)
                 Color coinColor = coinValue <= 3 ? Colors.Peru :
                                   coinValue <= 7 ? Colors.Silver :
                                   Colors.Gold;
@@ -145,7 +175,7 @@ namespace Moedix
                     StrokeThickness = 2,
                     WidthRequest = coinSize,
                     HeightRequest = coinSize,
-                    BindingContext = coinValue // armazena o valor dentro da moeda
+                    BindingContext = coinValue 
                 };
 
                 var topBounds = AbsoluteLayout.GetLayoutBounds(topPillar);
@@ -218,7 +248,7 @@ namespace Moedix
                 PlayerData.Instance.Coins += coinValue;
                 PlayerData.Instance.Save();
 
-                // 🔸 Mostra o texto flutuante de valor
+                // 🔸 Texto flutuante com valor
                 ShowFloatingText($"+{coinValue}", pigRect.X + 20, pigRect.Y - 30);
             }
         }
@@ -237,7 +267,6 @@ namespace Moedix
             AbsoluteLayout.SetLayoutBounds(label, new Rect(x, y, 60, 30));
             GameLayout.Children.Add(label);
 
-            // 🔹 Faz o texto "subir" e desaparecer
             await label.TranslateTo(0, -50, 800, Easing.SinOut);
             await label.FadeTo(0, 400);
             GameLayout.Children.Remove(label);
