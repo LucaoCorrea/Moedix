@@ -31,6 +31,7 @@ namespace Moedix
             if (PlayerData.Instance.Coins >= 100)
             {
                 PlayerData.Instance.Coins -= 100;
+                PlayerData.Instance.OwnedSkins.Add("ExtraPower"); 
                 PlayerData.Instance.Save();
                 DisplayAlert("Poder desbloqueado!", "Você ganhou um voo mais forte!", "OK");
                 UpdateCoins();

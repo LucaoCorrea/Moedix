@@ -124,23 +124,41 @@ namespace Moedix
         {
             MainThread.BeginInvokeOnMainThread(() =>
             {
+                if (topPillar == null || bottomPillar == null) return;
+
+                // 🔸 Valor aleatório da moeda (1 a 10)
+                int coinValue = random.Next(1, 11);
+
+                // 🔸 Tamanho proporcional ao valor
+                double baseSize = 20;
+                double coinSize = baseSize + (coinValue * 3);
+
+                // 🔸 Cor conforme valor (baixa = bronze, média = prata, alta = ouro)
+                Color coinColor = coinValue <= 3 ? Colors.Peru :
+                                  coinValue <= 7 ? Colors.Silver :
+                                  Colors.Gold;
+
                 coin = new Ellipse
                 {
-                    Fill = Colors.Gold,
-                    WidthRequest = 25,
-                    HeightRequest = 25
+                    Fill = coinColor,
+                    Stroke = Colors.DarkGoldenrod,
+                    StrokeThickness = 2,
+                    WidthRequest = coinSize,
+                    HeightRequest = coinSize,
+                    BindingContext = coinValue // armazena o valor dentro da moeda
                 };
+
+                var topBounds = AbsoluteLayout.GetLayoutBounds(topPillar);
+                var bottomBounds = AbsoluteLayout.GetLayoutBounds(bottomPillar);
 
                 double startX = GameLayout.Width + 100;
 
-                double coinY;
-                if (random.Next(0, 2) == 0)
-                    coinY = random.Next(50, (int)(AbsoluteLayout.GetLayoutBounds(topPillar).Height - 40));
-                else
-                    coinY = random.Next((int)(AbsoluteLayout.GetLayoutBounds(bottomPillar).Y + 40),
-                                        (int)(GameLayout.Height - Ground.HeightRequest - 60));
+                double gapMiddle = topBounds.Height + (bottomBounds.Y - topBounds.Height) / 2;
+                double offset = random.Next(-30, 30);
+                double coinY = gapMiddle + offset;
+                coinY = Math.Clamp(coinY, 50, GameLayout.Height - Ground.HeightRequest - 60);
 
-                AbsoluteLayout.SetLayoutBounds(coin, new Rect(startX, coinY, 25, 25));
+                AbsoluteLayout.SetLayoutBounds(coin, new Rect(startX, coinY, coinSize, coinSize));
                 GameLayout.Children.Add(coin);
             });
         }
@@ -192,11 +210,37 @@ namespace Moedix
 
             if (collected)
             {
+                int coinValue = (int)coin.BindingContext;
+
                 GameLayout.Children.Remove(coin);
                 coin = null;
-                PlayerData.Instance.Coins += 1;
+
+                PlayerData.Instance.Coins += coinValue;
                 PlayerData.Instance.Save();
+
+                // 🔸 Mostra o texto flutuante de valor
+                ShowFloatingText($"+{coinValue}", pigRect.X + 20, pigRect.Y - 30);
             }
+        }
+
+        async void ShowFloatingText(string text, double x, double y)
+        {
+            var label = new Label
+            {
+                Text = text,
+                TextColor = Colors.Yellow,
+                FontAttributes = FontAttributes.Bold,
+                FontSize = 20,
+                HorizontalTextAlignment = TextAlignment.Center
+            };
+
+            AbsoluteLayout.SetLayoutBounds(label, new Rect(x, y, 60, 30));
+            GameLayout.Children.Add(label);
+
+            // 🔹 Faz o texto "subir" e desaparecer
+            await label.TranslateTo(0, -50, 800, Easing.SinOut);
+            await label.FadeTo(0, 400);
+            GameLayout.Children.Remove(label);
         }
 
         bool CheckCollision()
@@ -221,6 +265,9 @@ namespace Moedix
 
             MainThread.BeginInvokeOnMainThread(() =>
             {
+                GameLayout.Children.Remove(GameOverScreen);
+                GameLayout.Children.Add(GameOverScreen);
+
                 GameOverScreen.IsVisible = true;
                 FinalScoreLabel.Text = $"Pontos: {score}\nRecorde: {PlayerData.Instance.HighScore}\nMoedas: {PlayerData.Instance.Coins}";
             });
