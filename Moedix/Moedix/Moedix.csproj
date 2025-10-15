@@ -51,4 +51,8 @@
 	  </MauiXaml>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Resources\Sprites\Pig\" />
+	</ItemGroup>
+
 </Project>
