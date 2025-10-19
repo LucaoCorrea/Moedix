@@ -18,6 +18,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Moedix\Moedix.csproj" />
+		<MauiImage Include="Resources\Images\**\*.png" />
 	</ItemGroup>
 
 </Project>

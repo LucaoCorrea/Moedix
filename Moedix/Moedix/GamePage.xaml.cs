@@ -16,12 +16,14 @@ namespace Moedix
         bool gameRunning = false;
 
         System.Timers.Timer gameTimer;
+        System.Timers.Timer spriteTimer;
 
         BoxView topPillar, bottomPillar;
         Ellipse coin;
         double pillarGap = 150;
         double pillarWidth = 60;
 
+        int spriteIndex = 1;
         Random random = new();
 
         public GamePage()
@@ -29,7 +31,7 @@ namespace Moedix
             InitializeComponent();
         }
 
-        void OnPageLoaded(object sender, NavigatedToEventArgs e)
+        void OnPageLoaded(object? sender, EventArgs e)
         {
             var tap = new TapGestureRecognizer();
             tap.Tapped += OnTapped;
@@ -43,31 +45,10 @@ namespace Moedix
         {
             var player = PlayerData.Instance;
 
-            string selectedSkin = player.SelectedSkin ?? "Padrão";
-
-            if (selectedSkin == "GoldenPig")
-            {
-                Pig.Fill = new RadialGradientBrush
-                {                    GradientStops =
-            {
-                new GradientStop(Color.FromArgb("#FFD700"), 0.2f),
-                new GradientStop(Color.FromArgb("#B8860B"), 1f)
-            }
-                };
-            }
-            else
-            {
-                Pig.Fill = new SolidColorBrush(Colors.Pink);
-            }
-
             if (player.OwnedPowers.Contains("ExtraPower") && player.PowerEnabled)
-            {
-                jumpStrength = -10; 
-            }
+                jumpStrength = -10;
             else
-            {
-                jumpStrength = -12; 
-            }
+                jumpStrength = -12;
         }
 
         void ResetGame()
@@ -77,7 +58,7 @@ namespace Moedix
             ScoreLabel.Text = "Pontos: 0";
             GameOverScreen.IsVisible = false;
             RemoveObjects();
-            AbsoluteLayout.SetLayoutBounds(Pig, new Rect(100, 300, 50, 50));
+            AbsoluteLayout.SetLayoutBounds(Pig, new Rect(100, 300, 70, 70));
         }
 
         void StartGame()
@@ -88,6 +69,7 @@ namespace Moedix
             pigVelocity = 0;
             gameRunning = true;
             GameOverScreen.IsVisible = false;
+
             CreatePillars();
             CreateCoin();
 
@@ -96,6 +78,27 @@ namespace Moedix
             gameTimer.Elapsed += GameLoop;
             gameTimer.AutoReset = true;
             gameTimer.Start();
+
+            StartSpriteAnimation();
+        }
+
+        void StartSpriteAnimation()
+        {
+            spriteTimer?.Stop();
+            spriteTimer = new System.Timers.Timer(100);
+            spriteTimer.Elapsed += (s, e) =>
+            {
+                if (!gameRunning) return;
+
+                spriteIndex++;
+                if (spriteIndex > 4) spriteIndex = 1;
+
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    Pig.Source = $"pig_sprites0{spriteIndex}.png";
+                });
+            };
+            spriteTimer.Start();
         }
 
         void RemoveObjects()
@@ -120,8 +123,7 @@ namespace Moedix
 
                 MoveObjects();
 
-                double groundY = GameLayout.Height - Ground.HeightRequest;
-                if (newY + pigRect.Height >= groundY || newY <= 0 || CheckCollision())
+                if (newY <= 0 || newY + pigRect.Height >= GameLayout.Height || CheckCollision())
                 {
                     EndGame();
                     return;
@@ -136,7 +138,7 @@ namespace Moedix
             double canvasHeight = Math.Max(GameLayout.Height, 800);
             double topHeight = random.Next(80, (int)(canvasHeight * 0.45));
             double bottomY = topHeight + pillarGap;
-            double bottomHeight = Math.Max(100, canvasHeight - bottomY - Ground.HeightRequest);
+            double bottomHeight = Math.Max(100, canvasHeight - bottomY);
 
             MainThread.BeginInvokeOnMainThread(() =>
             {
@@ -160,7 +162,6 @@ namespace Moedix
                 if (topPillar == null || bottomPillar == null) return;
 
                 int coinValue = random.Next(1, 11);
-
                 double baseSize = 20;
                 double coinSize = baseSize + (coinValue * 3);
 
@@ -175,18 +176,17 @@ namespace Moedix
                     StrokeThickness = 2,
                     WidthRequest = coinSize,
                     HeightRequest = coinSize,
-                    BindingContext = coinValue 
+                    BindingContext = coinValue
                 };
 
                 var topBounds = AbsoluteLayout.GetLayoutBounds(topPillar);
                 var bottomBounds = AbsoluteLayout.GetLayoutBounds(bottomPillar);
 
                 double startX = GameLayout.Width + 100;
-
                 double gapMiddle = topBounds.Height + (bottomBounds.Y - topBounds.Height) / 2;
                 double offset = random.Next(-30, 30);
                 double coinY = gapMiddle + offset;
-                coinY = Math.Clamp(coinY, 50, GameLayout.Height - Ground.HeightRequest - 60);
+                coinY = Math.Clamp(coinY, 50, GameLayout.Height - 60);
 
                 AbsoluteLayout.SetLayoutBounds(coin, new Rect(startX, coinY, coinSize, coinSize));
                 GameLayout.Children.Add(coin);
@@ -236,9 +236,7 @@ namespace Moedix
             var pigRect = AbsoluteLayout.GetLayoutBounds(Pig);
             var coinRect = AbsoluteLayout.GetLayoutBounds(coin);
 
-            bool collected = pigRect.IntersectsWith(coinRect);
-
-            if (collected)
+            if (pigRect.IntersectsWith(coinRect))
             {
                 int coinValue = (int)coin.BindingContext;
 
@@ -248,7 +246,6 @@ namespace Moedix
                 PlayerData.Instance.Coins += coinValue;
                 PlayerData.Instance.Save();
 
-                // 🔸 Texto flutuante com valor
                 ShowFloatingText($"+{coinValue}", pigRect.X + 20, pigRect.Y - 30);
             }
         }
@@ -286,6 +283,7 @@ namespace Moedix
         {
             gameRunning = false;
             gameTimer?.Stop();
+            spriteTimer?.Stop();
 
             if (score > PlayerData.Instance.HighScore)
                 PlayerData.Instance.HighScore = score;
@@ -296,9 +294,10 @@ namespace Moedix
             {
                 GameLayout.Children.Remove(GameOverScreen);
                 GameLayout.Children.Add(GameOverScreen);
-
                 GameOverScreen.IsVisible = true;
-                FinalScoreLabel.Text = $"Pontos: {score}\nRecorde: {PlayerData.Instance.HighScore}\nMoedas: {PlayerData.Instance.Coins}";
+
+                FinalScoreLabel.Text =
+                    $"Pontos: {score}\nRecorde: {PlayerData.Instance.HighScore}\nMoedas: {PlayerData.Instance.Coins}";
             });
         }
 
@@ -309,7 +308,6 @@ namespace Moedix
                 StartGame();
                 return;
             }
-
             pigVelocity = jumpStrength;
         }
 
@@ -322,6 +320,7 @@ namespace Moedix
         async void GoBackToMainPage(object sender, EventArgs e)
         {
             gameTimer?.Stop();
+            spriteTimer?.Stop();
             await Navigation.PopAsync();
         }
     }
