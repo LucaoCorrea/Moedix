@@ -21,6 +21,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Images\usclogociencia.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <MauiImage Include="Resources\Images\usclogociencia.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <MauiXaml Update="ContentPageView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
