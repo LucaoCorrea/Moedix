@@ -1,7 +1,4 @@
-﻿using Microsoft.Maui.Controls;
-using Microsoft.Maui.Controls.Shapes;
-using Moedix.Models;
-using System;
+﻿using Moedix.Models;
 using System.Timers;
 
 namespace Moedix
@@ -22,7 +19,7 @@ namespace Moedix
         Image? topPillar;
         Image? bottomPillar;
 
-        Ellipse? coin;
+        Image? coin;
 
         double pillarGap = 250;
         double pillarWidth = 100;
@@ -92,7 +89,7 @@ namespace Moedix
         void StartSpriteAnimation()
         {
             spriteTimer?.Stop();
-            spriteTimer = new System.Timers.Timer(100);
+            spriteTimer = new System.Timers.Timer(150);
             spriteTimer.Elapsed += (s, e) =>
             {
                 if (!gameRunning) return;
@@ -191,21 +188,16 @@ namespace Moedix
         {
             MainThread.BeginInvokeOnMainThread(() =>
             {
-                if (topPillar == null || bottomPillar == null) return;
+                if (topPillar == null || bottomPillar == null)
+                    return;
 
                 int coinValue = random.Next(1, 11);
-                double baseSize = 20;
-                double coinSize = baseSize + (coinValue * 3);
+                double baseSize = 6 * coinValue;
+                double coinSize = baseSize;
 
-                Color coinColor = coinValue <= 3 ? Colors.Peru :
-                                  coinValue <= 7 ? Colors.Silver :
-                                  Colors.Gold;
-
-                coin = new Ellipse
+                coin = new Image
                 {
-                    Fill = coinColor,
-                    Stroke = Colors.DarkGoldenrod,
-                    StrokeThickness = 2,
+                    Source = "coin_frame_1.png",
                     WidthRequest = coinSize,
                     HeightRequest = coinSize,
                     HorizontalOptions = LayoutOptions.Center,
@@ -215,7 +207,6 @@ namespace Moedix
 
                 var topBounds = AbsoluteLayout.GetLayoutBounds(topPillar);
                 var bottomBounds = AbsoluteLayout.GetLayoutBounds(bottomPillar);
-
                 double startX = GameLayout.Width + 100;
                 double gapMiddle = topBounds.Height + (bottomBounds.Y - topBounds.Height) / 2;
                 double offset = random.Next(-30, 30);
@@ -224,7 +215,32 @@ namespace Moedix
 
                 AbsoluteLayout.SetLayoutBounds(coin, new Rect(startX, coinY, coinSize, coinSize));
                 GameLayout.Children.Add(coin);
+
+                StartCoinAnimation(coin);
             });
+        }
+
+        void StartCoinAnimation(Image coinImage)
+        {
+            int frame = 1;
+            var coinTimer = new System.Timers.Timer(200);
+            coinTimer.Elapsed += (s, e) =>
+            {
+                if (!gameRunning || coinImage == null)
+                {
+                    coinTimer.Stop();
+                    return;
+                }
+
+                frame++;
+                if (frame > 5) frame = 1;
+
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    coinImage.Source = $"coin_frame_{frame}.png";
+                });
+            };
+            coinTimer.Start();
         }
 
         void MoveObjects()
