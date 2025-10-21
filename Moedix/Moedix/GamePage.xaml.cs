@@ -1,4 +1,5 @@
-﻿using Microsoft.Maui.Controls.Shapes;
+﻿using Microsoft.Maui.Controls;
+using Microsoft.Maui.Controls.Shapes;
 using Moedix.Models;
 using System;
 using System.Timers;
@@ -15,13 +16,16 @@ namespace Moedix
         int score = 0;
         bool gameRunning = false;
 
-        System.Timers.Timer gameTimer;
-        System.Timers.Timer spriteTimer;
+        System.Timers.Timer? gameTimer;
+        System.Timers.Timer? spriteTimer;
 
-        BoxView topPillar, bottomPillar;
-        Ellipse coin;
-        double pillarGap = 150;
-        double pillarWidth = 60;
+        Image? topPillar;
+        Image? bottomPillar;
+
+        Ellipse? coin;
+
+        double pillarGap = 250;
+        double pillarWidth = 100;
 
         int spriteIndex = 1;
         Random random = new();
@@ -31,11 +35,13 @@ namespace Moedix
             InitializeComponent();
         }
 
-        void OnPageLoaded(object? sender, EventArgs e)
+        private void OnPageLoaded(object? sender, EventArgs e)
         {
             var tap = new TapGestureRecognizer();
             tap.Tapped += OnTapped;
-            GameLayout.GestureRecognizers.Add(tap);
+
+            if (GameLayout != null)
+                GameLayout.GestureRecognizers.Add(tap);
 
             ApplyPlayerCustomizations();
             ResetGame();
@@ -58,6 +64,7 @@ namespace Moedix
             ScoreLabel.Text = "Pontos: 0";
             GameOverScreen.IsVisible = false;
             RemoveObjects();
+
             AbsoluteLayout.SetLayoutBounds(Pig, new Rect(100, 300, 70, 70));
         }
 
@@ -103,12 +110,21 @@ namespace Moedix
 
         void RemoveObjects()
         {
-            if (topPillar != null) GameLayout.Children.Remove(topPillar);
-            if (bottomPillar != null) GameLayout.Children.Remove(bottomPillar);
-            if (coin != null) GameLayout.Children.Remove(coin);
+            if (topPillar != null && GameLayout.Children.Contains(topPillar))
+                GameLayout.Children.Remove(topPillar);
+
+            if (bottomPillar != null && GameLayout.Children.Contains(bottomPillar))
+                GameLayout.Children.Remove(bottomPillar);
+
+            if (coin != null && GameLayout.Children.Contains(coin))
+                GameLayout.Children.Remove(coin);
+
+            topPillar = null;
+            bottomPillar = null;
+            coin = null;
         }
 
-        void GameLoop(object sender, ElapsedEventArgs e)
+        void GameLoop(object? sender, ElapsedEventArgs e)
         {
             if (!gameRunning) return;
 
@@ -143,10 +159,26 @@ namespace Moedix
             MainThread.BeginInvokeOnMainThread(() =>
             {
                 RemoveObjects();
-                topPillar = new BoxView { Color = Colors.SaddleBrown, WidthRequest = pillarWidth, HeightRequest = topHeight };
-                bottomPillar = new BoxView { Color = Colors.SaddleBrown, WidthRequest = pillarWidth, HeightRequest = bottomHeight };
 
                 double startX = GameLayout.Width + 50;
+
+                topPillar = new Image
+                {
+                    Source = "Pillar.png",       
+                    WidthRequest = pillarWidth,
+                    HeightRequest = topHeight,
+                    Aspect = Aspect.Fill,
+                    Rotation = 180
+                };
+
+                bottomPillar = new Image
+                {
+                    Source = "Pillar.png",
+                    WidthRequest = pillarWidth,
+                    HeightRequest = bottomHeight,
+                    Aspect = Aspect.Fill
+                };
+
                 AbsoluteLayout.SetLayoutBounds(topPillar, new Rect(startX, 0, pillarWidth, topHeight));
                 AbsoluteLayout.SetLayoutBounds(bottomPillar, new Rect(startX, bottomY, pillarWidth, bottomHeight));
 
@@ -176,6 +208,8 @@ namespace Moedix
                     StrokeThickness = 2,
                     WidthRequest = coinSize,
                     HeightRequest = coinSize,
+                    HorizontalOptions = LayoutOptions.Center,
+                    VerticalOptions = LayoutOptions.Center,
                     BindingContext = coinValue
                 };
 
@@ -199,17 +233,20 @@ namespace Moedix
             MovePillar(bottomPillar);
             MoveCoin();
 
-            var topRect = AbsoluteLayout.GetLayoutBounds(topPillar);
-            if (topRect.X + topRect.Width < 0)
+            if (topPillar != null)
             {
-                score++;
-                ScoreLabel.Text = $"Pontos: {score}";
-                CreatePillars();
-                if (random.Next(0, 3) == 1) CreateCoin();
+                var topRect = AbsoluteLayout.GetLayoutBounds(topPillar);
+                if (topRect.X + topRect.Width < 0)
+                {
+                    score++;
+                    ScoreLabel.Text = $"Pontos: {score}";
+                    CreatePillars();
+                    if (random.Next(0, 3) == 1) CreateCoin();
+                }
             }
         }
 
-        void MovePillar(BoxView pillar)
+        void MovePillar(VisualElement? pillar)
         {
             if (pillar == null) return;
             var rect = AbsoluteLayout.GetLayoutBounds(pillar);
@@ -225,7 +262,8 @@ namespace Moedix
             AbsoluteLayout.SetLayoutBounds(coin, rect);
             if (rect.X + rect.Width < 0)
             {
-                GameLayout.Children.Remove(coin);
+                if (GameLayout.Children.Contains(coin))
+                    GameLayout.Children.Remove(coin);
                 coin = null;
             }
         }
@@ -240,7 +278,8 @@ namespace Moedix
             {
                 int coinValue = (int)coin.BindingContext;
 
-                GameLayout.Children.Remove(coin);
+                if (GameLayout.Children.Contains(coin))
+                    GameLayout.Children.Remove(coin);
                 coin = null;
 
                 PlayerData.Instance.Coins += coinValue;
@@ -272,11 +311,12 @@ namespace Moedix
         bool CheckCollision()
         {
             if (topPillar == null || bottomPillar == null) return false;
-            var pig = AbsoluteLayout.GetLayoutBounds(Pig);
-            var top = AbsoluteLayout.GetLayoutBounds(topPillar);
-            var bottom = AbsoluteLayout.GetLayoutBounds(bottomPillar);
 
-            return (pig.IntersectsWith(top) || pig.IntersectsWith(bottom));
+            var pigRect = AbsoluteLayout.GetLayoutBounds(Pig);
+            var topRect = AbsoluteLayout.GetLayoutBounds(topPillar);
+            var bottomRect = AbsoluteLayout.GetLayoutBounds(bottomPillar);
+
+            return pigRect.IntersectsWith(topRect) || pigRect.IntersectsWith(bottomRect);
         }
 
         void EndGame()
@@ -292,7 +332,9 @@ namespace Moedix
 
             MainThread.BeginInvokeOnMainThread(() =>
             {
-                GameLayout.Children.Remove(GameOverScreen);
+                if (GameLayout.Children.Contains(GameOverScreen))
+                    GameLayout.Children.Remove(GameOverScreen);
+
                 GameLayout.Children.Add(GameOverScreen);
                 GameOverScreen.IsVisible = true;
 
