@@ -12,9 +12,8 @@
   <ItemGroup>
     <MauiImage Include="Resources\Images\**\*.png" />
     <MauiImage Include="Resources\Images\**\*.gif" />
-    <MauiImage Include="Resources\Images\**\*.*" />
 
-    <MauiImage Update="Resources\Images\dotnet_bot.png" Resize="True" BaseSize="300,185" />
+    <MauiAsset Include="Resources\Sounds\**\*" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
 
     <MauiFont Include="Resources\Fonts\*" />
 
@@ -22,32 +21,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Resources\Images\usclogociencia.jpg" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <MauiImage Include="Resources\Images\usclogociencia.jpg" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <MauiXaml Update="ContentPageView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </MauiXaml>
-    <MauiXaml Update="CreditsPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </MauiXaml>
-    <MauiXaml Update="GamePage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </MauiXaml>
-    <MauiXaml Update="ShopPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </MauiXaml>
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
     <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.1" />
+    <PackageReference Include="Plugin.Maui.Audio" Version="3.0.0" />
   </ItemGroup>
 
 </Project>

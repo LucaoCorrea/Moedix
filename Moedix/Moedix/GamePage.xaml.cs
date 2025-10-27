@@ -1,5 +1,6 @@
 ﻿using Moedix.Models;
 using System.Timers;
+using Plugin.Maui.Audio;
 
 namespace Moedix
 {
@@ -18,40 +19,76 @@ namespace Moedix
 
         Image? topPillar;
         Image? bottomPillar;
-
         Image? coin;
-
         double pillarGap = 250;
         double pillarWidth = 100;
-
         int spriteIndex = 1;
         Random random = new();
 
-        public GamePage()
+        readonly IAudioManager _audioManager;
+        IAudioPlayer? _backgroundMusic;
+        bool isMuted = false;
+
+        public GamePage() : this(AudioManager.Current) { }
+
+        public GamePage(IAudioManager audioManager)
         {
             InitializeComponent();
+            _audioManager = audioManager;
         }
 
-        private void OnPageLoaded(object? sender, EventArgs e)
+        void OnPageLoaded(object? sender, EventArgs e)
         {
             var tap = new TapGestureRecognizer();
             tap.Tapped += OnTapped;
-
-            if (GameLayout != null)
-                GameLayout.GestureRecognizers.Add(tap);
+            GameLayout?.GestureRecognizers.Add(tap);
 
             ApplyPlayerCustomizations();
             ResetGame();
+            PlayBackgroundMusic();
+        }
+
+        void ToggleMute(object sender, EventArgs e)
+        {
+            isMuted = !isMuted;
+            if (_backgroundMusic != null)
+                _backgroundMusic.Volume = isMuted ? 0 : 0.2;
+
+            MuteButton.Source = isMuted ? "mute.png" : "unmuted.png";
+        }
+
+        async void PlayBackgroundMusic()
+        {
+            if (_backgroundMusic != null)
+                return;
+
+            try
+            {
+                var stream = await FileSystem.OpenAppPackageFileAsync("bg_music.mp3");
+                _backgroundMusic = _audioManager.CreatePlayer(stream);
+                _backgroundMusic.Loop = true;
+                _backgroundMusic.Volume = isMuted ? 0 : 0.2;
+                _backgroundMusic.Play();
+            }
+            catch { }
+        }
+
+        void StopMusic()
+        {
+            if (_backgroundMusic != null && _backgroundMusic.IsPlaying)
+                _backgroundMusic.Pause();
+        }
+
+        void ResumeMusic()
+        {
+            if (_backgroundMusic != null && !_backgroundMusic.IsPlaying)
+                _backgroundMusic.Play();
         }
 
         void ApplyPlayerCustomizations()
         {
             var player = PlayerData.Instance;
-
-            if (player.OwnedPowers.Contains("ExtraPower") && player.PowerEnabled)
-                jumpStrength = -10;
-            else
-                jumpStrength = -12;
+            jumpStrength = (player.OwnedPowers.Contains("ExtraPower") && player.PowerEnabled) ? -10 : -12;
         }
 
         void ResetGame()
@@ -61,7 +98,6 @@ namespace Moedix
             ScoreLabel.Text = "Pontos: 0";
             GameOverScreen.IsVisible = false;
             RemoveObjects();
-
             AbsoluteLayout.SetLayoutBounds(Pig, new Rect(100, 300, 70, 70));
         }
 
@@ -73,7 +109,6 @@ namespace Moedix
             pigVelocity = 0;
             gameRunning = true;
             GameOverScreen.IsVisible = false;
-
             CreatePillars();
             CreateCoin();
 
@@ -93,10 +128,8 @@ namespace Moedix
             spriteTimer.Elapsed += (s, e) =>
             {
                 if (!gameRunning) return;
-
                 spriteIndex++;
                 if (spriteIndex > 4) spriteIndex = 1;
-
                 MainThread.BeginInvokeOnMainThread(() =>
                 {
                     Pig.Source = $"pig_sprites0{spriteIndex}.png";
@@ -109,10 +142,8 @@ namespace Moedix
         {
             if (topPillar != null && GameLayout.Children.Contains(topPillar))
                 GameLayout.Children.Remove(topPillar);
-
             if (bottomPillar != null && GameLayout.Children.Contains(bottomPillar))
                 GameLayout.Children.Remove(bottomPillar);
-
             if (coin != null && GameLayout.Children.Contains(coin))
                 GameLayout.Children.Remove(coin);
 
@@ -124,7 +155,6 @@ namespace Moedix
         void GameLoop(object? sender, ElapsedEventArgs e)
         {
             if (!gameRunning) return;
-
             gameSpeed += speedIncrease;
             pigVelocity += gravity;
 
@@ -156,12 +186,11 @@ namespace Moedix
             MainThread.BeginInvokeOnMainThread(() =>
             {
                 RemoveObjects();
-
                 double startX = GameLayout.Width + 50;
 
                 topPillar = new Image
                 {
-                    Source = "Pillar.png",       
+                    Source = "Pillar.png",
                     WidthRequest = pillarWidth,
                     HeightRequest = topHeight,
                     Aspect = Aspect.Fill,
@@ -178,7 +207,6 @@ namespace Moedix
 
                 AbsoluteLayout.SetLayoutBounds(topPillar, new Rect(startX, 0, pillarWidth, topHeight));
                 AbsoluteLayout.SetLayoutBounds(bottomPillar, new Rect(startX, bottomY, pillarWidth, bottomHeight));
-
                 GameLayout.Children.Add(topPillar);
                 GameLayout.Children.Add(bottomPillar);
             });
@@ -188,12 +216,10 @@ namespace Moedix
         {
             MainThread.BeginInvokeOnMainThread(() =>
             {
-                if (topPillar == null || bottomPillar == null)
-                    return;
+                if (topPillar == null || bottomPillar == null) return;
 
                 int coinValue = random.Next(1, 11);
-                double baseSize = 6 * coinValue;
-                double coinSize = baseSize;
+                double coinSize = 6 * coinValue;
 
                 coin = new Image
                 {
@@ -210,8 +236,7 @@ namespace Moedix
                 double startX = GameLayout.Width + 100;
                 double gapMiddle = topBounds.Height + (bottomBounds.Y - topBounds.Height) / 2;
                 double offset = random.Next(-30, 30);
-                double coinY = gapMiddle + offset;
-                coinY = Math.Clamp(coinY, 50, GameLayout.Height - 60);
+                double coinY = Math.Clamp(gapMiddle + offset, 50, GameLayout.Height - 60);
 
                 AbsoluteLayout.SetLayoutBounds(coin, new Rect(startX, coinY, coinSize, coinSize));
                 GameLayout.Children.Add(coin);
@@ -231,10 +256,8 @@ namespace Moedix
                     coinTimer.Stop();
                     return;
                 }
-
                 frame++;
                 if (frame > 5) frame = 1;
-
                 MainThread.BeginInvokeOnMainThread(() =>
                 {
                     coinImage.Source = $"coin_frame_{frame}.png";
@@ -276,6 +299,7 @@ namespace Moedix
             var rect = AbsoluteLayout.GetLayoutBounds(coin);
             rect.X -= gameSpeed;
             AbsoluteLayout.SetLayoutBounds(coin, rect);
+
             if (rect.X + rect.Width < 0)
             {
                 if (GameLayout.Children.Contains(coin))
@@ -293,11 +317,10 @@ namespace Moedix
             if (pigRect.IntersectsWith(coinRect))
             {
                 int coinValue = (int)coin.BindingContext;
-
                 if (GameLayout.Children.Contains(coin))
                     GameLayout.Children.Remove(coin);
-                coin = null;
 
+                coin = null;
                 PlayerData.Instance.Coins += coinValue;
                 PlayerData.Instance.Save();
 
@@ -318,7 +341,6 @@ namespace Moedix
 
             AbsoluteLayout.SetLayoutBounds(label, new Rect(x, y, 60, 30));
             GameLayout.Children.Add(label);
-
             await label.TranslateTo(0, -50, 800, Easing.SinOut);
             await label.FadeTo(0, 400);
             GameLayout.Children.Remove(label);
@@ -340,6 +362,7 @@ namespace Moedix
             gameRunning = false;
             gameTimer?.Stop();
             spriteTimer?.Stop();
+            StopMusic();
 
             if (score > PlayerData.Instance.HighScore)
                 PlayerData.Instance.HighScore = score;
@@ -354,8 +377,7 @@ namespace Moedix
                 GameLayout.Children.Add(GameOverScreen);
                 GameOverScreen.IsVisible = true;
 
-                FinalScoreLabel.Text =
-                    $"Pontos: {score}\nRecorde: {PlayerData.Instance.HighScore}\nMoedas: {PlayerData.Instance.Coins}";
+                FinalScoreLabel.Text = $"Pontos: {score}\nRecorde: {PlayerData.Instance.HighScore}\nMoedas: {PlayerData.Instance.Coins}";
             });
         }
 
@@ -363,14 +385,17 @@ namespace Moedix
         {
             if (!gameRunning)
             {
+                ResumeMusic();
                 StartGame();
                 return;
             }
+
             pigVelocity = jumpStrength;
         }
 
         void RestartGame(object sender, EventArgs e)
         {
+            ResumeMusic();
             ResetGame();
             StartGame();
         }
@@ -379,6 +404,7 @@ namespace Moedix
         {
             gameTimer?.Stop();
             spriteTimer?.Stop();
+            _backgroundMusic?.Stop();
             await Navigation.PopAsync();
         }
     }

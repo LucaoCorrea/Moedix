@@ -1,4 +1,4 @@
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Moedix.GamePage"
              NavigatedTo="OnPageLoaded"
@@ -18,6 +18,15 @@
                FontAttributes="Bold"
                TextColor="White"
                AbsoluteLayout.LayoutBounds="20,20,200,40" />
+
+            <ImageButton x:Name="MuteButton"
+               Source="unmuted.png"
+               WidthRequest="40"
+               HeightRequest="40"
+               BackgroundColor="Transparent"
+               Clicked="ToggleMute"
+               AbsoluteLayout.LayoutBounds="1,0,50,50"
+               AbsoluteLayout.LayoutFlags="PositionProportional" />
 
         <Grid x:Name="GameOverScreen"
               IsVisible="False"
