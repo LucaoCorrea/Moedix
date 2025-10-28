@@ -35,10 +35,5 @@ namespace Moedix
         {
             await Shell.Current.GoToAsync(nameof(GamePage));
         }
-
-        private async void OnShopClicked(object sender, EventArgs e)
-        {
-            await Shell.Current.GoToAsync(nameof(ShopPage));
-        }
     }
 }

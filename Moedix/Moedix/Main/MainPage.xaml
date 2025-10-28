@@ -45,19 +45,6 @@
                             />
                 </Frame>
 
-                <Frame CornerRadius="20" HasShadow="True" Padding="0" BackgroundColor="#FFA500">
-                    <Button Text="Loja"
-                            Grid.Row="4"
-                            FontSize="24"
-                            BackgroundColor="#F4A460"
-                            TextColor="White"
-                            Clicked="OnShopClicked"
-                            CornerRadius="20"
-                            HeightRequest="60"
-                            WidthRequest="180"
-                            HorizontalOptions="Center" />       
-                </Frame>
-
                 <Frame CornerRadius="20" HasShadow="True" Padding="0" BackgroundColor="#6A5ACD">
                     <Button Text="Conteúdos"
                             BackgroundColor="Transparent"

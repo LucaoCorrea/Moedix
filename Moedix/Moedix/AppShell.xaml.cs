@@ -9,7 +9,6 @@
             Routing.RegisterRoute(nameof(CreditsPage), typeof(CreditsPage));
             Routing.RegisterRoute(nameof(ContentPageView), typeof(ContentPageView));
             Routing.RegisterRoute(nameof(GamePage), typeof(GamePage));
-            Routing.RegisterRoute(nameof(ShopPage), typeof(ShopPage));
         }
     }
 
