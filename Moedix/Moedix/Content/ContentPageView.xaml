@@ -4,7 +4,7 @@
              x:Class="Moedix.ContentPageView"
              BackgroundColor="#121212">
 
-    <Grid Padding="20" RowDefinitions="Auto,*">
+    <Grid Padding="20" RowDefinitions="Auto,Auto,*">
 
         <Grid Grid.Row="0" ColumnDefinitions="Auto,*" VerticalOptions="Start">
             <Button Text="←"
@@ -14,20 +14,31 @@
                     Clicked="OnBackClicked"
                     HorizontalOptions="Start"
                     VerticalOptions="Center" />
+
+            <Label x:Name="PlayerCoinLabel"
+                   Grid.Column="1"
+                   Text="Moedas: 0 💰"
+                   TextColor="#FFD700"
+                   FontSize="20"
+                   FontAttributes="Bold"
+                   HorizontalOptions="End"
+                   VerticalOptions="Center"
+                   Padding="0,0,10,0"/>
         </Grid>
 
-        <ScrollView Grid.Row="1">
+        <BoxView Grid.Row="1" HeightRequest="1" Color="#333" Margin="0,10" />
+
+        <ScrollView Grid.Row="2">
             <VerticalStackLayout x:Name="ContentList" Padding="0" Spacing="15">
 
                 <Frame CornerRadius="20" BackgroundColor="#1E1E1E" Padding="15" HasShadow="True">
                     <VerticalStackLayout>
-                        <Button Text="🌟 1. Bem-vindo ao Mundo de Moedix ▼"
-                                BackgroundColor="Transparent"
-                                TextColor="#FFD700"
-                                FontAttributes="Bold"
+                        <Button x:Name="HeaderButton1"
+                                Text="🌟 1. Bem-vindo ao Mundo de Moedix ▼"
+                                BackgroundColor="Transparent" TextColor="#FFD700" FontAttributes="Bold"
                                 HorizontalOptions="FillAndExpand"
-                                Clicked="OnToggleClicked"
-                                CommandParameter="Conteudo1Body" />
+                                Clicked="OnHeaderClicked"
+                                CommandParameter="Conteudo1" />
 
                         <StackLayout x:Name="Conteudo1Body" IsVisible="False" Padding="10">
                             <Label TextColor="White" FontSize="16">
@@ -45,12 +56,22 @@
 
                 <Frame CornerRadius="20" BackgroundColor="#1E1E1E" Padding="15" HasShadow="True">
                     <VerticalStackLayout>
-                        <Button Text="💰 2. Aprendendo o Valor do Dinheiro ▼"
-                                BackgroundColor="Transparent"
-                                TextColor="#FFD700"
-                                FontAttributes="Bold"
-                                Clicked="OnToggleClicked"
-                                CommandParameter="Conteudo2Body" />
+                        <Button x:Name="HeaderButton2"
+                                Text="💰 2. Aprendendo o Valor do Dinheiro ▼"
+                                BackgroundColor="Transparent" TextColor="#FFD700" FontAttributes="Bold"
+                                HorizontalOptions="FillAndExpand"
+                                Clicked="OnHeaderClicked"
+                                CommandParameter="Conteudo2" />
+
+                        <VerticalStackLayout x:Name="LockPanel2" IsVisible="True" Padding="10" Spacing="10" HorizontalOptions="Center">
+                            <Label Text="🔒 Conteúdo Bloqueado" TextColor="White" HorizontalOptions="Center" FontAttributes="Italic"/>
+                            <Button x:Name="UnlockButton2"
+                                    Text="Desbloquear (Custo: 50 💰)"
+                                    BackgroundColor="#FFD700" TextColor="#1E1E1E" FontAttributes="Bold"
+                                    HorizontalOptions="Center"
+                                    Clicked="OnUnlockClicked"
+                                    CommandParameter="Conteudo2" />
+                        </VerticalStackLayout>
 
                         <StackLayout x:Name="Conteudo2Body" IsVisible="False" Padding="10">
                             <Label TextColor="White" FontSize="16">
@@ -68,12 +89,22 @@
 
                 <Frame CornerRadius="20" BackgroundColor="#1E1E1E" Padding="15" HasShadow="True">
                     <VerticalStackLayout>
-                        <Button Text="🐷 3. Guardar e Planejar ▼"
-                                BackgroundColor="Transparent"
-                                TextColor="#FFD700"
-                                FontAttributes="Bold"
-                                Clicked="OnToggleClicked"
-                                CommandParameter="Conteudo3Body" />
+                        <Button x:Name="HeaderButton3"
+                                Text="🐷 3. Guardar e Planejar ▼"
+                                BackgroundColor="Transparent" TextColor="#FFD700" FontAttributes="Bold"
+                                HorizontalOptions="FillAndExpand"
+                                Clicked="OnHeaderClicked"
+                                CommandParameter="Conteudo3" />
+
+                        <VerticalStackLayout x:Name="LockPanel3" IsVisible="True" Padding="10" Spacing="10" HorizontalOptions="Center">
+                            <Label Text="🔒 Conteúdo Bloqueado" TextColor="White" HorizontalOptions="Center" FontAttributes="Italic"/>
+                            <Button x:Name="UnlockButton3"
+                                    Text="Desbloquear (Custo: 100 💰)"
+                                    BackgroundColor="#FFD700" TextColor="#1E1E1E" FontAttributes="Bold"
+                                    HorizontalOptions="Center"
+                                    Clicked="OnUnlockClicked"
+                                    CommandParameter="Conteudo3" />
+                        </VerticalStackLayout>
 
                         <StackLayout x:Name="Conteudo3Body" IsVisible="False" Padding="10">
                             <Label TextColor="White" FontSize="16">
@@ -91,12 +122,22 @@
 
                 <Frame CornerRadius="20" BackgroundColor="#1E1E1E" Padding="15" HasShadow="True">
                     <VerticalStackLayout>
-                        <Button Text="🧩 4. Fazendo Boas Escolhas ▼"
-                                BackgroundColor="Transparent"
-                                TextColor="#FFD700"
-                                FontAttributes="Bold"
-                                Clicked="OnToggleClicked"
-                                CommandParameter="Conteudo4Body" />
+                        <Button x:Name="HeaderButton4"
+                                Text="🧩 4. Fazendo Boas Escolhas ▼"
+                                BackgroundColor="Transparent" TextColor="#FFD700" FontAttributes="Bold"
+                                HorizontalOptions="FillAndExpand"
+                                Clicked="OnHeaderClicked"
+                                CommandParameter="Conteudo4" />
+
+                        <VerticalStackLayout x:Name="LockPanel4" IsVisible="True" Padding="10" Spacing="10" HorizontalOptions="Center">
+                            <Label Text="🔒 Conteúdo Bloqueado" TextColor="White" HorizontalOptions="Center" FontAttributes="Italic"/>
+                            <Button x:Name="UnlockButton4"
+                                    Text="Desbloquear (Custo: 150 💰)"
+                                    BackgroundColor="#FFD700" TextColor="#1E1E1E" FontAttributes="Bold"
+                                    HorizontalOptions="Center"
+                                    Clicked="OnUnlockClicked"
+                                    CommandParameter="Conteudo4" />
+                        </VerticalStackLayout>
 
                         <StackLayout x:Name="Conteudo4Body" IsVisible="False" Padding="10">
                             <Label TextColor="White" FontSize="16">
@@ -114,12 +155,22 @@
 
                 <Frame CornerRadius="20" BackgroundColor="#1E1E1E" Padding="15" HasShadow="True">
                     <VerticalStackLayout>
-                        <Button Text="💎 5. Criptomoedas: o Dinheiro da Internet ▼"
-                                BackgroundColor="Transparent"
-                                TextColor="#FFD700"
-                                FontAttributes="Bold"
-                                Clicked="OnToggleClicked"
-                                CommandParameter="Conteudo5Body" />
+                        <Button x:Name="HeaderButton5"
+                                Text="💎 5. Criptomoedas: o Dinheiro da Internet ▼"
+                                BackgroundColor="Transparent" TextColor="#FFD700" FontAttributes="Bold"
+                                HorizontalOptions="FillAndExpand"
+                                Clicked="OnHeaderClicked"
+                                CommandParameter="Conteudo5" />
+
+                        <VerticalStackLayout x:Name="LockPanel5" IsVisible="True" Padding="10" Spacing="10" HorizontalOptions="Center">
+                            <Label Text="🔒 Conteúdo Bloqueado" TextColor="White" HorizontalOptions="Center" FontAttributes="Italic"/>
+                            <Button x:Name="UnlockButton5"
+                                    Text="Desbloquear (Custo: 200 💰)"
+                                    BackgroundColor="#FFD700" TextColor="#1E1E1E" FontAttributes="Bold"
+                                    HorizontalOptions="Center"
+                                    Clicked="OnUnlockClicked"
+                                    CommandParameter="Conteudo5" />
+                        </VerticalStackLayout>
 
                         <StackLayout x:Name="Conteudo5Body" IsVisible="False" Padding="10">
                             <Label TextColor="White" FontSize="16">
@@ -137,12 +188,22 @@
 
                 <Frame CornerRadius="20" BackgroundColor="#1E1E1E" Padding="15" HasShadow="True">
                     <VerticalStackLayout>
-                        <Button Text="🔐 6. Criptografia: Protegendo Segredos ▼"
-                                BackgroundColor="Transparent"
-                                TextColor="#FFD700"
-                                FontAttributes="Bold"
-                                Clicked="OnToggleClicked"
-                                CommandParameter="Conteudo6Body" />
+                        <Button x:Name="HeaderButton6"
+                                Text="🔐 6. Criptografia: Protegendo Segredos ▼"
+                                BackgroundColor="Transparent" TextColor="#FFD700" FontAttributes="Bold"
+                                HorizontalOptions="FillAndExpand"
+                                Clicked="OnHeaderClicked"
+                                CommandParameter="Conteudo6" />
+
+                        <VerticalStackLayout x:Name="LockPanel6" IsVisible="True" Padding="10" Spacing="10" HorizontalOptions="Center">
+                            <Label Text="🔒 Conteúdo Bloqueado" TextColor="White" HorizontalOptions="Center" FontAttributes="Italic"/>
+                            <Button x:Name="UnlockButton6"
+                                    Text="Desbloquear (Custo: 250 💰)"
+                                    BackgroundColor="#FFD700" TextColor="#1E1E1E" FontAttributes="Bold"
+                                    HorizontalOptions="Center"
+                                    Clicked="OnUnlockClicked"
+                                    CommandParameter="Conteudo6" />
+                        </VerticalStackLayout>
 
                         <StackLayout x:Name="Conteudo6Body" IsVisible="False" Padding="10">
                             <Label TextColor="White" FontSize="16">
@@ -160,12 +221,22 @@
 
                 <Frame CornerRadius="20" BackgroundColor="#1E1E1E" Padding="15" HasShadow="True">
                     <VerticalStackLayout>
-                        <Button Text="🏛️ 7. Sabedoria Grega: é Ouro ▼"
-                                BackgroundColor="Transparent"
-                                TextColor="#FFD700"
-                                FontAttributes="Bold"
-                                Clicked="OnToggleClicked"
-                                CommandParameter="Conteudo7Body" />
+                        <Button x:Name="HeaderButton7"
+                                Text="🏛️ 7. Sabedoria Grega: é Ouro ▼"
+                                BackgroundColor="Transparent" TextColor="#FFD700" FontAttributes="Bold"
+                                HorizontalOptions="FillAndExpand"
+                                Clicked="OnHeaderClicked"
+                                CommandParameter="Conteudo7" />
+
+                        <VerticalStackLayout x:Name="LockPanel7" IsVisible="True" Padding="10" Spacing="10" HorizontalOptions="Center">
+                            <Label Text="🔒 Conteúdo Bloqueado" TextColor="White" HorizontalOptions="Center" FontAttributes="Italic"/>
+                            <Button x:Name="UnlockButton7"
+                                    Text="Desbloquear (Custo: 300 💰)"
+                                    BackgroundColor="#FFD700" TextColor="#1E1E1E" FontAttributes="Bold"
+                                    HorizontalOptions="Center"
+                                    Clicked="OnUnlockClicked"
+                                    CommandParameter="Conteudo7" />
+                        </VerticalStackLayout>
 
                         <StackLayout x:Name="Conteudo7Body" IsVisible="False" Padding="10">
                             <Label TextColor="White" FontSize="16">

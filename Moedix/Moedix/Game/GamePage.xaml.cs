@@ -7,9 +7,9 @@ namespace Moedix
     public partial class GamePage : ContentPage
     {
         double gravity = 0.6;
-        double jumpStrength = -12;
+        double jumpStrength = -10;
         double pigVelocity = 0;
-        double gameSpeed = 4;
+        double gameSpeed = 6;
         double speedIncrease = 0.001;
         int score = 0;
         bool gameRunning = false;
@@ -27,6 +27,7 @@ namespace Moedix
 
         readonly IAudioManager _audioManager;
         IAudioPlayer? _backgroundMusic;
+        IAudioPlayer? _coinSoundPlayer; // <-- ADICIONADO
         bool isMuted = false;
 
         public GamePage() : this(AudioManager.Current) { }
@@ -46,7 +47,28 @@ namespace Moedix
             ApplyPlayerCustomizations();
             ResetGame();
             PlayBackgroundMusic();
+            LoadCoinSoundAsync(); // <-- ADICIONADO
         }
+
+        // =======================================================
+        // <-- MÉTODO INTEIRO ADICIONADO -->
+        async void LoadCoinSoundAsync()
+        {
+            try
+            {
+                // Certifique-se que o nome "coin_sound.mp3" está correto!
+                // E que ele está na pasta Resources/Raw
+                var stream = await FileSystem.OpenAppPackageFileAsync("coin_sound.mp3");
+                _coinSoundPlayer = _audioManager.CreatePlayer(stream);
+                _coinSoundPlayer.Loop = false; // Som de efeito, não é loop
+            }
+            catch (Exception ex)
+            {
+                // Opcional: só para debug
+                System.Diagnostics.Debug.WriteLine($"Erro ao carregar som da moeda: {ex.Message}");
+            }
+        }
+        // =======================================================
 
         void ToggleMute(object sender, EventArgs e)
         {
@@ -323,6 +345,18 @@ namespace Moedix
                 coin = null;
                 PlayerData.Instance.Coins += coinValue;
                 PlayerData.Instance.Save();
+
+                // ===============================================
+                // <-- BLOCO DE CÓDIGO ADICIONADO -->
+                if (!isMuted && _coinSoundPlayer != null)
+                {
+                    if (_coinSoundPlayer.IsPlaying)
+                    {
+                        _coinSoundPlayer.Stop(); // Para o som se estiver tocando
+                    }
+                    _coinSoundPlayer.Play(); // Toca do início
+                }
+                // ===============================================
 
                 ShowFloatingText($"+{coinValue}", pigRect.X + 20, pigRect.Y - 30);
             }
