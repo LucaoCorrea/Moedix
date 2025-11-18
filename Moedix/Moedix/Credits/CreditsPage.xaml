@@ -84,12 +84,6 @@
                            TextColor="White"
                            HorizontalOptions="Center"/>
 
-                    <Label Text="Elvio Silva"
-                           FontSize="18"
-                           FontAttributes="Bold"
-                           TextColor="White"
-                           HorizontalOptions="Center"/>
-
                     <BoxView HeightRequest="20" Opacity="0"/>
 
                     <Label Text="DESENVOLVIMENTO:"
@@ -102,6 +96,18 @@
                            HeightRequest="70"
                            Aspect="AspectFit"
                            HorizontalOptions="Center"/>
+
+                    <Label Text="APOIO:"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#DFEA3F"
+                           HorizontalOptions="Center"/>
+
+                    <Image Source="usclogoextensao.jpg"
+                           HeightRequest="70"
+                           Aspect="AspectFit"
+                           HorizontalOptions="Center"/>
+                    
                 </VerticalStackLayout>
             </ScrollView>
         </Grid>

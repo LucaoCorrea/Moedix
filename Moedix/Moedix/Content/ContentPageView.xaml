@@ -44,9 +44,9 @@
                             <Label TextColor="White" FontSize="16">
                                 <Label.FormattedText>
                                     <FormattedString>
-                                        <Span TextColor="White" Text="🐷✨ No Moedix, você vai conhecer o Porquinho Alado!" />
-                                        <Span TextColor="White" Text="&#x0a;&#x0a;Ele vive em um lugar mágico cheio de colunas gregas e templos dourados. A Grécia representa sabedoria — e aqui, você vai aprender o poder do conhecimento sobre o dinheiro! 💰" />
-                                        <Span TextColor="White" Text="&#x0a;&#x0a;O mini game é como um voo: quanto melhor você aprender a cuidar das suas moedas, mais alto o porquinho voa! 🕊️" />
+                                        <Span Text="🐷✨ Você acaba de conhecer o Porquinho Alado, seu guia mágico no mundo das moedas! " />
+                                        <Span Text="&#x0a;&#x0a;Ele vive em um reino inspirado na Grécia antiga, onde a sabedoria é ouro. Aqui, aprender sobre dinheiro é tão importante quanto aprender a voar!" />
+                                        <Span Text="&#x0a;&#x0a;Cada escolha que você faz ajuda o porquinho a subir mais alto. Quanto mais você aprende, mais longe ele voa! 🕊️" />
                                     </FormattedString>
                                 </Label.FormattedText>
                             </Label>
@@ -63,12 +63,11 @@
                                 Clicked="OnHeaderClicked"
                                 CommandParameter="Conteudo2" />
 
-                        <VerticalStackLayout x:Name="LockPanel2" IsVisible="True" Padding="10" Spacing="10" HorizontalOptions="Center">
+                        <VerticalStackLayout x:Name="LockPanel2" IsVisible="True" Padding="10" HorizontalOptions="Center">
                             <Label Text="🔒 Conteúdo Bloqueado" TextColor="White" HorizontalOptions="Center" FontAttributes="Italic"/>
                             <Button x:Name="UnlockButton2"
                                     Text="Desbloquear (Custo: 50 💰)"
                                     BackgroundColor="#FFD700" TextColor="#1E1E1E" FontAttributes="Bold"
-                                    HorizontalOptions="Center"
                                     Clicked="OnUnlockClicked"
                                     CommandParameter="Conteudo2" />
                         </VerticalStackLayout>
@@ -77,12 +76,19 @@
                             <Label TextColor="White" FontSize="16">
                                 <Label.FormattedText>
                                     <FormattedString>
-                                        <Span TextColor="White" Text="Dinheiro é o que usamos para comprar brinquedos, roupas e até sorvete 🍦." />
-                                        <Span TextColor="White" Text="&#x0a;&#x0a;Mas ele não aparece do nada! 💪 Ele vem do trabalho e do esforço das pessoas." />
-                                        <Span TextColor="White" Text="&#x0a;&#x0a;Aprender sobre dinheiro é entender que cada moedinha tem uma história e um valor especial! ✨" />
+                                        <Span Text="O dinheiro existe para ajudar as pessoas a trocarem coisas. Ele paga brinquedos, comida, roupas e muitas outras coisas." />
+                                        <Span Text="&#x0a;&#x0a;Mas ele só existe porque alguém trabalhou para ganhá-lo. Cada moedinha representa esforço e dedicação." />
+                                        <Span Text="&#x0a;&#x0a;Quando entendemos isso, começamos a usar o dinheiro com mais carinho e responsabilidade. ✨" />
                                     </FormattedString>
                                 </Label.FormattedText>
                             </Label>
+
+                            <Button Text="▶️ Assistir vídeo"
+                                    BackgroundColor="#FFD700"
+                                    TextColor="#1E1E1E"
+                                    FontAttributes="Bold"
+                                    Clicked="OnVideoButtonClicked"
+                                    CommandParameter="https://www.youtube.com/watch?v=OGbWdvEpw7o" />
                         </StackLayout>
                     </VerticalStackLayout>
                 </Frame>
@@ -92,16 +98,14 @@
                         <Button x:Name="HeaderButton3"
                                 Text="🐷 3. Guardar e Planejar ▼"
                                 BackgroundColor="Transparent" TextColor="#FFD700" FontAttributes="Bold"
-                                HorizontalOptions="FillAndExpand"
                                 Clicked="OnHeaderClicked"
                                 CommandParameter="Conteudo3" />
 
-                        <VerticalStackLayout x:Name="LockPanel3" IsVisible="True" Padding="10" Spacing="10" HorizontalOptions="Center">
+                        <VerticalStackLayout x:Name="LockPanel3" IsVisible="True" Padding="10" HorizontalOptions="Center">
                             <Label Text="🔒 Conteúdo Bloqueado" TextColor="White" HorizontalOptions="Center" FontAttributes="Italic"/>
                             <Button x:Name="UnlockButton3"
                                     Text="Desbloquear (Custo: 100 💰)"
                                     BackgroundColor="#FFD700" TextColor="#1E1E1E" FontAttributes="Bold"
-                                    HorizontalOptions="Center"
                                     Clicked="OnUnlockClicked"
                                     CommandParameter="Conteudo3" />
                         </VerticalStackLayout>
@@ -110,12 +114,18 @@
                             <Label TextColor="White" FontSize="16">
                                 <Label.FormattedText>
                                     <FormattedString>
-                                        <Span TextColor="White" Text="Quando guardamos um pouquinho, o dinheiro pode crescer! 📈" />
-                                        <Span TextColor="White" Text="&#x0a;&#x0a;O cofrinho é um amigo que ajuda a economizar para algo especial — como um brinquedo novo ou um passeio divertido! 🎁" />
-                                        <Span TextColor="White" Text="&#x0a;&#x0a;Planejar ensina que esperar também faz parte da aventura! 🕰️" />
+                                        <Span Text="Guardar dinheiro é como plantar sementes. Você coloca um pouquinho hoje para colher algo muito maior no futuro! 🌱" />
+                                        <Span Text="&#x0a;&#x0a;Planejar nos ajuda a entender o que queremos comprar e quando. Isso evita gastar com coisas que não precisamos." />
+                                        <Span Text="&#x0a;&#x0a;O porquinho-cofre é seu melhor amigo nessa jornada! 🐽" />
                                     </FormattedString>
                                 </Label.FormattedText>
                             </Label>
+                            <Button Text="▶️ Assistir vídeo"
+                                    BackgroundColor="#FFD700"
+                                    TextColor="#1E1E1E"
+                                    FontAttributes="Bold"
+                                    Clicked="OnVideoButtonClicked"
+                                    CommandParameter="https://www.youtube.com/watch?v=naSJPA_54dE" />
                         </StackLayout>
                     </VerticalStackLayout>
                 </Frame>
@@ -125,16 +135,14 @@
                         <Button x:Name="HeaderButton4"
                                 Text="🧩 4. Fazendo Boas Escolhas ▼"
                                 BackgroundColor="Transparent" TextColor="#FFD700" FontAttributes="Bold"
-                                HorizontalOptions="FillAndExpand"
                                 Clicked="OnHeaderClicked"
                                 CommandParameter="Conteudo4" />
 
-                        <VerticalStackLayout x:Name="LockPanel4" IsVisible="True" Padding="10" Spacing="10" HorizontalOptions="Center">
-                            <Label Text="🔒 Conteúdo Bloqueado" TextColor="White" HorizontalOptions="Center" FontAttributes="Italic"/>
+                        <VerticalStackLayout x:Name="LockPanel4" IsVisible="True" Padding="10" HorizontalOptions="Center">
+                            <Label Text="🔒 Conteúdo Bloqueado" TextColor="White" HorizontalOptions="Center"/>
                             <Button x:Name="UnlockButton4"
                                     Text="Desbloquear (Custo: 150 💰)"
-                                    BackgroundColor="#FFD700" TextColor="#1E1E1E" FontAttributes="Bold"
-                                    HorizontalOptions="Center"
+                                    BackgroundColor="#FFD700" TextColor="#1E1E1E"
                                     Clicked="OnUnlockClicked"
                                     CommandParameter="Conteudo4" />
                         </VerticalStackLayout>
@@ -143,9 +151,9 @@
                             <Label TextColor="White" FontSize="16">
                                 <Label.FormattedText>
                                     <FormattedString>
-                                        <Span TextColor="White" Text="Nem tudo o que brilha precisa ser comprado! ✨" />
-                                        <Span TextColor="White" Text="&#x0a;&#x0a;Às vezes, é melhor esperar e pensar: será que eu preciso disso agora? 🤔" />
-                                        <Span TextColor="White" Text="&#x0a;&#x0a;Fazer boas escolhas é como montar um quebra-cabeça — cada peça tem o seu momento certo! 🧠" />
+                                        <Span Text="Escolher bem é pensar antes de comprar. Nem tudo que queremos é realmente necessário!" />
+                                        <Span Text="&#x0a;&#x0a;Às vezes, esperar é a chave para conseguir algo muito melhor." />
+                                        <Span Text="&#x0a;&#x0a;Cada decisão é uma pecinha do quebra-cabeça da vida financeira! 🧠" />
                                     </FormattedString>
                                 </Label.FormattedText>
                             </Label>
@@ -153,21 +161,19 @@
                     </VerticalStackLayout>
                 </Frame>
 
-                <Frame CornerRadius="20" BackgroundColor="#1E1E1E" Padding="15" HasShadow="True">
+                <Frame CornerRadius="20" BackgroundColor="#1E1E1E" Padding="15">
                     <VerticalStackLayout>
                         <Button x:Name="HeaderButton5"
-                                Text="💎 5. Criptomoedas: o Dinheiro da Internet ▼"
+                                Text="💎 5. Criptomoedas: Dinheiro Digital ▼"
                                 BackgroundColor="Transparent" TextColor="#FFD700" FontAttributes="Bold"
-                                HorizontalOptions="FillAndExpand"
                                 Clicked="OnHeaderClicked"
                                 CommandParameter="Conteudo5" />
 
-                        <VerticalStackLayout x:Name="LockPanel5" IsVisible="True" Padding="10" Spacing="10" HorizontalOptions="Center">
-                            <Label Text="🔒 Conteúdo Bloqueado" TextColor="White" HorizontalOptions="Center" FontAttributes="Italic"/>
+                        <VerticalStackLayout x:Name="LockPanel5" IsVisible="True" Padding="10" HorizontalOptions="Center">
+                            <Label Text="🔒 Conteúdo Bloqueado" TextColor="White"/>
                             <Button x:Name="UnlockButton5"
                                     Text="Desbloquear (Custo: 200 💰)"
-                                    BackgroundColor="#FFD700" TextColor="#1E1E1E" FontAttributes="Bold"
-                                    HorizontalOptions="Center"
+                                    BackgroundColor="#FFD700" TextColor="#1E1E1E"
                                     Clicked="OnUnlockClicked"
                                     CommandParameter="Conteudo5" />
                         </VerticalStackLayout>
@@ -176,31 +182,35 @@
                             <Label TextColor="White" FontSize="16">
                                 <Label.FormattedText>
                                     <FormattedString>
-                                        <Span TextColor="White" Text="As criptomoedas são como moedinhas digitais! 💻✨" />
-                                        <Span TextColor="White" Text="&#x0a;&#x0a;Elas moram dentro do computador e usam códigos secretos para ninguém roubar." />
-                                        <Span TextColor="White" Text="&#x0a;&#x0a;É como um cofrinho mágico protegido por senhas superfortes! 🔐" />
+                                        <Span Text="Criptomoedas são moedas digitais protegidas por códigos muito fortes." />
+                                        <Span Text="&#x0a;&#x0a;Elas não ficam em bancos e viajam pela internet rapidamente." />
+                                        <Span Text="&#x0a;&#x0a;É como ter um cofrinho invisível que só você pode abrir! 🔐" />
                                     </FormattedString>
                                 </Label.FormattedText>
                             </Label>
+                            <Button Text="▶️ Assistir vídeo"
+                                    BackgroundColor="#FFD700"
+                                    TextColor="#1E1E1E"
+                                    FontAttributes="Bold"
+                                    Clicked="OnVideoButtonClicked"
+                                    CommandParameter="https://www.youtube.com/watch?v=9uO5Hl_zKac" />
                         </StackLayout>
                     </VerticalStackLayout>
                 </Frame>
 
-                <Frame CornerRadius="20" BackgroundColor="#1E1E1E" Padding="15" HasShadow="True">
+                <Frame CornerRadius="20" BackgroundColor="#1E1E1E" Padding="15">
                     <VerticalStackLayout>
                         <Button x:Name="HeaderButton6"
-                                Text="🔐 6. Criptografia: Protegendo Segredos ▼"
+                                Text="🔐 6. Criptografia: Protegendo Segredos e Moedas ▼"
                                 BackgroundColor="Transparent" TextColor="#FFD700" FontAttributes="Bold"
-                                HorizontalOptions="FillAndExpand"
                                 Clicked="OnHeaderClicked"
                                 CommandParameter="Conteudo6" />
 
-                        <VerticalStackLayout x:Name="LockPanel6" IsVisible="True" Padding="10" Spacing="10" HorizontalOptions="Center">
-                            <Label Text="🔒 Conteúdo Bloqueado" TextColor="White" HorizontalOptions="Center" FontAttributes="Italic"/>
+                        <VerticalStackLayout x:Name="LockPanel6" IsVisible="True" Padding="10" HorizontalOptions="Center">
+                            <Label Text="🔒 Conteúdo Bloqueado" TextColor="White"/>
                             <Button x:Name="UnlockButton6"
                                     Text="Desbloquear (Custo: 250 💰)"
-                                    BackgroundColor="#FFD700" TextColor="#1E1E1E" FontAttributes="Bold"
-                                    HorizontalOptions="Center"
+                                    BackgroundColor="#FFD700" TextColor="#1E1E1E"
                                     Clicked="OnUnlockClicked"
                                     CommandParameter="Conteudo6" />
                         </VerticalStackLayout>
@@ -209,31 +219,37 @@
                             <Label TextColor="White" FontSize="16">
                                 <Label.FormattedText>
                                     <FormattedString>
-                                        <Span TextColor="White" Text="Criptografia é uma forma de esconder mensagens e proteger informações. 🔏" />
-                                        <Span TextColor="White" Text="&#x0a;&#x0a;É como uma linguagem secreta que só quem tem a chave certa entende! 🔑" />
-                                        <Span TextColor="White" Text="&#x0a;&#x0a;Ela protege nossas fotos, conversas e até o dinheiro digital. 💬💰" />
+                                        <Span Text="Criptografia é como transformar o dinheiro digital em um tesouro secreto que só abre com a chave certa."/>
+                                        <Span Text="&#x0a;&#x0a;Quando você envia moedas pela internet, elas não viajam sozinhas. Elas vão escondidas dentro de um cofre invisível cheio de códigos embaralhados, como se fossem letrinhas mágicas dançando."/>
+                                        <Span Text="&#x0a;&#x0a;No mundo financeiro, bancos e aplicativos usam criptografia para proteger tudo: pagamentos, senhas, compras e até suas moedinhas guardadas. Ninguém consegue ver o que está acontecendo lá dentro, porque tudo fica embaralhado."/>
+                                        <Span Text="&#x0a;&#x0a;Só quem tem a chave secreta — que pode ser uma senha, um token ou um código especial — consegue abrir o cofre e entender as informações. É como se cada pessoa tivesse sua própria chave mágica que só funciona no seu tesouro."/>
+                                        <Span Text="&#x0a;&#x0a;Assim, a criptografia faz o dinheiro digital viajar seguro pelo mundo inteiro, sem medo de ladrões ou curiosos. É a magia que mantém o seu tesouro protegido. 🔑✨"/>
                                     </FormattedString>
                                 </Label.FormattedText>
                             </Label>
+                            <Button Text="▶️ Assistir vídeo"
+                                    BackgroundColor="#FFD700"
+                                    TextColor="#1E1E1E"
+                                    FontAttributes="Bold"
+                                    Clicked="OnVideoButtonClicked"
+                                    CommandParameter="https://www.youtube.com/watch?v=IhKXdt2SrdU" />
                         </StackLayout>
                     </VerticalStackLayout>
                 </Frame>
 
-                <Frame CornerRadius="20" BackgroundColor="#1E1E1E" Padding="15" HasShadow="True">
+                <Frame CornerRadius="20" BackgroundColor="#1E1E1E" Padding="15">
                     <VerticalStackLayout>
                         <Button x:Name="HeaderButton7"
-                                Text="🏛️ 7. Sabedoria Grega: é Ouro ▼"
+                                Text="🏛️ 7. Sabedoria Grega: Ouro para a Vida ▼"
                                 BackgroundColor="Transparent" TextColor="#FFD700" FontAttributes="Bold"
-                                HorizontalOptions="FillAndExpand"
                                 Clicked="OnHeaderClicked"
                                 CommandParameter="Conteudo7" />
 
-                        <VerticalStackLayout x:Name="LockPanel7" IsVisible="True" Padding="10" Spacing="10" HorizontalOptions="Center">
-                            <Label Text="🔒 Conteúdo Bloqueado" TextColor="White" HorizontalOptions="Center" FontAttributes="Italic"/>
+                        <VerticalStackLayout x:Name="LockPanel7" IsVisible="True" Padding="10" HorizontalOptions="Center">
+                            <Label Text="🔒 Conteúdo Bloqueado" TextColor="White"/>
                             <Button x:Name="UnlockButton7"
                                     Text="Desbloquear (Custo: 300 💰)"
-                                    BackgroundColor="#FFD700" TextColor="#1E1E1E" FontAttributes="Bold"
-                                    HorizontalOptions="Center"
+                                    BackgroundColor="#FFD700" TextColor="#1E1E1E"
                                     Clicked="OnUnlockClicked"
                                     CommandParameter="Conteudo7" />
                         </VerticalStackLayout>
@@ -242,9 +258,102 @@
                             <Label TextColor="White" FontSize="16">
                                 <Label.FormattedText>
                                     <FormattedString>
-                                        <Span TextColor="White" Text="Na Grécia antiga, as pessoas valorizavam o saber e o equilíbrio. ⚖️" />
-                                        <Span TextColor="White" Text="&#x0a;&#x0a;No Moedix, aprendemos que o verdadeiro tesouro não são só as moedas, mas o que aprendemos com elas. 💎" />
-                                        <Span TextColor="White" Text="&#x0a;&#x0a;Saber usar o dinheiro com sabedoria é o que faz um verdadeiro herói financeiro! 🦸‍♂️" />
+                                        <Span Text="Os gregos valorizavam equilíbrio, esforço e sabedoria." />
+                                        <Span Text="&#x0a;&#x0a;No Moedix, aprender sobre dinheiro também é aprender a ser mais sábio." />
+                                        <Span Text="&#x0a;&#x0a;Esse é o verdadeiro tesouro: conhecimento!" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            <Button Text="▶️ Assistir vídeo"
+                                    BackgroundColor="#FFD700"
+                                    TextColor="#1E1E1E"
+                                    FontAttributes="Bold"
+                                    Clicked="OnVideoButtonClicked"
+                                    CommandParameter="https://www.youtube.com/watch?v=BL5vUVQvmX4" />
+                        </StackLayout>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <Frame CornerRadius="20" BackgroundColor="#1E1E1E" Padding="15">
+                    <VerticalStackLayout>
+                        <Button Text="🌐 8. Dinheiro Digital no Dia a Dia ▼"
+                                BackgroundColor="Transparent" TextColor="#FFD700" FontAttributes="Bold"
+                                Clicked="OnHeaderClicked"
+                                CommandParameter="Conteudo8" />
+
+                        <VerticalStackLayout x:Name="LockPanel8" IsVisible="True" Padding="10" HorizontalOptions="Center">
+                            <Label Text="🔒 Conteúdo Bloqueado" TextColor="White"/>
+                            <Button Text="Desbloquear (Custo: 350 💰)"
+                                    BackgroundColor="#FFD700" TextColor="#1E1E1E"
+                                    Clicked="OnUnlockClicked"
+                                    CommandParameter="Conteudo8" />
+                        </VerticalStackLayout>
+
+                        <StackLayout x:Name="Conteudo8Body" IsVisible="False" Padding="10">
+                            <Label TextColor="White" FontSize="16">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Muitas compras hoje são feitas usando dinheiro digital. Ele está no cartão, no celular e até nos games." />
+                                        <Span Text="&#x0a;&#x0a;Ele é rápido, fácil e seguro quando usado com cuidado." />
+                                        <Span Text="&#x0a;&#x0a;Usar dinheiro digital é como ter uma carteira invisível que funciona com um toque!" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </StackLayout>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <Frame CornerRadius="20" BackgroundColor="#1E1E1E" Padding="15">
+                    <VerticalStackLayout>
+                        <Button Text="📱 9. Carteiras Digitais: Cofrinhos do Futuro ▼"
+                                BackgroundColor="Transparent" TextColor="#FFD700" FontAttributes="Bold"
+                                Clicked="OnHeaderClicked"
+                                CommandParameter="Conteudo9" />
+
+                        <VerticalStackLayout x:Name="LockPanel9" IsVisible="True" Padding="10" HorizontalOptions="Center">
+                            <Label Text="🔒 Conteúdo Bloqueado" TextColor="White"/>
+                            <Button Text="Desbloquear (Custo: 400 💰)"
+                                    BackgroundColor="#FFD700" TextColor="#1E1E1E"
+                                    Clicked="OnUnlockClicked"
+                                    CommandParameter="Conteudo9" />
+                        </VerticalStackLayout>
+
+                        <StackLayout x:Name="Conteudo9Body" IsVisible="False" Padding="10">
+                            <Label TextColor="White" FontSize="16">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Carteiras digitais são aplicativos onde você guarda seu dinheiro digital." />
+                                        <Span Text="&#x0a;&#x0a;Elas funcionam como cofres inteligentes, protegidos por senha ou impressão digital." />
+                                        <Span Text="&#x0a;&#x0a;Com elas, dá para pagar lanches, jogos e até enviar moedas para amigos!" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </StackLayout>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <Frame CornerRadius="20" BackgroundColor="#1E1E1E" Padding="15">
+                    <VerticalStackLayout>
+                        <Button Text="🛡️ 10. Segurança Online para Crianças ▼"
+                                BackgroundColor="Transparent" TextColor="#FFD700" FontAttributes="Bold"
+                                Clicked="OnHeaderClicked"
+                                CommandParameter="Conteudo10" />
+
+                        <VerticalStackLayout x:Name="LockPanel10" IsVisible="True" Padding="10" HorizontalOptions="Center">
+                            <Label Text="🔒 Conteúdo Bloqueado" TextColor="White"/>
+                            <Button Text="Desbloquear (Custo: 450 💰)"
+                                    BackgroundColor="#FFD700" TextColor="#1E1E1E"
+                                    Clicked="OnUnlockClicked"
+                                    CommandParameter="Conteudo10" />
+                        </VerticalStackLayout>
+
+                        <StackLayout x:Name="Conteudo10Body" IsVisible="False" Padding="10">
+                            <Label TextColor="White" FontSize="16">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Para usar dinheiro digital, é importante saber se proteger. Nunca compartilhe senhas e sempre use dispositivos seguros." />
+                                        <Span Text="&#x0a;&#x0a;Se algo parecer estranho, peça ajuda a um adulto." />
+                                        <Span Text="&#x0a;&#x0a;Segurança é a chave para aproveitar o mundo digital com tranquilidade!" />
                                     </FormattedString>
                                 </Label.FormattedText>
                             </Label>

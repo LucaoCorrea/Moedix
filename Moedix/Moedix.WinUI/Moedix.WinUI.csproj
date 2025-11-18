@@ -2,20 +2,44 @@
 
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
+
 		<TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
 		<TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+
 		<RootNamespace>Moedix.WinUI</RootNamespace>
 		<ApplicationManifest>app.manifest</ApplicationManifest>
+
 		<Platforms>x86;x64;ARM64</Platforms>
-		<RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
+
+		<RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
+
 		<PublishProfile>win10-$(Platform).pubxml</PublishProfile>
+
 		<UseWinUI>true</UseWinUI>
-		<EnableMsixTooling>true</EnableMsixTooling>
+		<UseMaui>true</UseMaui>
+
+		<EnableDefaultMauiItems>false</EnableDefaultMauiItems>
+
+		<PackageCertificateThumbprint>A3E383F476E861B04FCC0E864C98C3F527624905</PackageCertificateThumbprint>
+		<AppxPackageSigningEnabled>true</AppxPackageSigningEnabled>
+
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<UseMaui>true</UseMaui>
-		<!-- We do not want XAML files to be processed as .NET MAUI XAML, but rather WinUI XAML. -->
-		<EnableDefaultMauiItems>false</EnableDefaultMauiItems>
+		<DefaultLanguage>pt-BR</DefaultLanguage>
+
+		<PublishReadyToRun>false</PublishReadyToRun>
+
+		<PublishTrimmed>false</PublishTrimmed>
+		<GenerateAppInstallerFile>True</GenerateAppInstallerFile>
+		<AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
+		<AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
+		<AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
+		<GenerateTestArtifacts>True</GenerateTestArtifacts>
+		<AppxBundle>Never</AppxBundle>
+		<AppInstallerUri>D:\Moedix\</AppInstallerUri>
+		<HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
+
+
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -30,7 +54,21 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<!-- Make sure all image assets to be in the root of the package to match the other platforms -->
+	  <Content Remove="Assets\logo.png.scale-125.png" />
+	  <Content Remove="Assets\logo.png.scale-150.png" />
+	  <Content Remove="Assets\logo.png.scale-200.png" />
+	  <Content Remove="Assets\logo.png.scale-400.png" />
+	  <Content Remove="Assets\logo100.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove="Assets\logo.scale-100.png" />
+	  <None Remove="Assets\logo.scale-150.png" />
+	  <None Remove="Assets\logo.scale-200.png" />
+	  <None Remove="logo25.ico" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<Content Update="Assets\Images\*" TargetPath="%(Filename)%(Extension)" />
 	</ItemGroup>
 
@@ -38,20 +76,15 @@
 		<Manifest Include="$(ApplicationManifest)" />
 	</ItemGroup>
 
-	<!--
-		Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
-		Tools extension to be activated for this project even if the Windows App SDK Nuget
-		package has not yet been restored.
-	-->
 	<ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
 		<ProjectCapability Include="Msix" />
 	</ItemGroup>
 
-	<!--
-		Defining the "HasPackageAndPublishMenuAddedByProject" property here allows the Solution
-		Explorer "Package and Publish" context menu entry to be enabled for this project even if
-		the Windows App SDK Nuget package has not yet been restored.
-	-->
+	<ItemGroup>
+	  <MauiIcon Include="Assets\logo100.png" />
+	  <MauiImage Include="logo25.ico" />
+	</ItemGroup>
+
 	<PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
 		<HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
 	</PropertyGroup>

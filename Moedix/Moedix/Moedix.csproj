@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFrameworks>net8.0;net8.0-windows10.0.22621.0</TargetFrameworks>
     <SingleProject>true</SingleProject>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>Moedix</RootNamespace>
@@ -22,10 +22,12 @@
 
   <ItemGroup>
     <None Remove="Resources\Images\usclogociencia.jpg" />
+    <None Remove="Resources\Images\usclogoextensao.jpg" />
   </ItemGroup>
 
   <ItemGroup>
     <MauiImage Include="Resources\Images\usclogociencia.jpg" />
+    <MauiImage Include="Resources\Images\usclogoextensao.jpg" />
   </ItemGroup>
 
   <ItemGroup>
